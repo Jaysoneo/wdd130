@@ -20,7 +20,7 @@ h4
 }
 #content
 {
-    max-width: 1600;
+    max-width: 1600px;
     margin: 0 auto;
 }
 #background
@@ -31,9 +31,13 @@ h4
 footer
 {
     background-color: #4E3D42;
-    color: #C9D5B5;
-    text-decoration: underline;
 }
+footer h3 a:hover
+{
+    text-decoration: underline;
+    color: #C9D5B5;
+}
+
 header
 {
     background-color: #4E3D42;
