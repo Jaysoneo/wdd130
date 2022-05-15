@@ -1,0 +1,44 @@
+nav,footer{
+    background-color: #473F47;
+    padding: 10px;
+    text-align: center;
+    
+}
+nav a{
+    color: #c3c0e0;
+    margin: 40px;
+    text-decoration: none;
+    font-size: 1.5em;
+}
+
+h1{
+    color: #473F47;
+    text-align: center;
+}
+img{
+    width: 80%;
+    border: 4px solid #473F47;
+    display: block;
+    margin: 0 auto;
+}
+p{
+    padding: 10px;
+    width: 80%;
+    color: black;
+    text-align: center;
+    display: block;
+    margin: 50px auto;
+}
+.main-para{
+    font-size: 1.5em;
+}
+#active{
+    background-color: #c3c0e0;
+    color: #473F47;
+}
+footer{
+    font-size: 20px;
+}
+footer p{
+    color: #c3c0e0;
+}
