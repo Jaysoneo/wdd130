@@ -1,0 +1,11 @@
+
+div img
+{
+    border: 10px solid #444444;
+    border-radius: 50%;
+    width: 20%;
+}
+body
+{
+    background-color: #737373;
+}

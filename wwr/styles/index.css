@@ -1,82 +1,157 @@
-nav a, nav a:hover
+@import url('https://fonts.googleapis.com/css2?family=Grape+Nuts&family=Indie+Flower&family=Plus+Jakarta+Sans:wght@200&family=Roboto:wght@100&family=Shadows+Into+Light&display=swap');
+body
 {
+    background-color: #E3DBDB;
+    font-size: 22px;
+    margin: 0;
+    padding: 0;
+}
+
+.logo{
+    width: 80px;
+    padding-top: 10px;
+}
+
+.icon{
+    width: 80px;
+    padding-top: 10px;
+}
+
+nav a{
     text-align: center;
     background-color: #4E3D42;
     color: #C9D5B5;
     text-decoration: none;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+    padding: 35px;
 }
-#hero-msg h1, #hero-msg
-{
+
+nav a:hover{
+    text-align: center;
+    background-color: #4E3D42;
+    color: #C9D5B5;
+    text-decoration: none;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+}
+
+#logo_link{
+    padding-top: 5px;
+}  
+
+#hero-msg h1{
     text-align: center;
 }
-h4
-{
+#hero-msg{
+    text-align: center;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+}
+
+.home-title{
+    color: #4E3D42;
+    font-family: 'Indie Flower','Grape Nuts','Shadows Into Light';
+    font-size: 2em;
+    margin-top: 10px;
+}
+
+
+#hero-img{
+    width: 100%;
+}
+
+main section img {
+    box-sizing: border-box;
+}
+
+h4{
     text-align: center;
     color: #4E3D42;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
 }
-.button-box, main,section
-{
+
+.button-box, main,section{
     text-align: center;
 }
-#content
-{
+
+#content{
     max-width: 1600px;
     margin: 0 auto;
 }
-#background
-{
+
+#background{
     height: 725px;
     background-color: #9F9F92;
 }
-footer
-{
+
+header{
     background-color: #4E3D42;
+    color: #C9D5B5;
 }
-footer h3 a:hover
-{
+
+.book:hover, .join:hover{
+    background-color: #9F9F92;
+    color: #4E3D42;
+}
+
+.book,.join{
+    background-color: #C9D5B5;
+    color: #4E3D42;
+    text-decoration: none;
+    font-family: 'Plus Jakarta Sans',sans-serif,Roboto;
+    font-size: 18px;
+    padding: 15px 30px;
+    margin-top: 50px;
+    border-radius: 5px;
+}
+
+.msg p{   
+    background-color: #9F9F92;
+    color: #C9D5B5;
+    font-size: 2em;
+    padding-bottom: 15px;
+}
+
+.msg{   
+    background-color: #9F9F92;
+    color: #C9D5B5;
+    line-height: 1.5em;
+    padding: 35px;
+}
+
+
+h2{
+    color: #4E3D42;
+    font-family: 'Indie Flower','Grape Nuts','Shadows Into Light';
+    margin: 0;
+}
+
+.rivers-card, .camping-card, .rapids-card{
+    margin: 200px 0;
+}
+.card-img{
+    border: 10px solid #4E3D42;
+}
+p{
+    color: #4E3D42;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+}
+
+h3,footer a,footer a:hover{
+    color: #C9D5B5;
+    text-decoration: none;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+}
+
+footer{
+    background-color: #4E3D42;
+    padding: 25px 50px;
+    margin-top: 200px;
+}
+
+footer h3 a:hover{
     text-decoration: underline;
     color: #C9D5B5;
 }
 
-header
-{
-    background-color: #4E3D42;
-    color: #C9D5B5;
-}
-body
-{
-    background-color: #E3DBDB;
-}
-.book:hover, .join:hover
-{
-    background-color: #9F9F92;
-    color: #4E3D42;
-}
-.msg
-{   
-    background-color: #9F9F92;
-    color: #C9D5B5;
-}
-.book,.join
-{
-    background-color: #C9D5B5;
-    color: #4E3D42;
-    text-decoration: none;
-}
-.home-title,h2, p
-{
-    color: #4E3D42;
-}
-h3,footer a,footer a:hover
-{
-    color: #C9D5B5;
-    text-decoration: none;
-}
-.logo,.icon 
-{
-    width: 80px;
-}
-#hero-img
-{
-    width: 100%;
+footer .social img{
+    padding-top: 15px;
 }
