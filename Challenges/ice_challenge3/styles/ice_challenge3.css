@@ -1,0 +1,49 @@
+ *{border: 2px solid yellow;}
+
+.card{
+    width: 650px;
+    align-content: center;
+}
+.img{
+    width: 100%;
+}
+.mainpara{
+    align-content: center;
+}
+.time{
+    color: gray;
+    text-align: center;
+}
+.title{
+    text-align: center;
+}
+
+.para{
+    color: gray;
+    text-align: left;
+}
+
+
+.footer{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color:dodgerblue;
+    color: white;
+    text-align: center;
+    grid-column-gap: 10%;
+}
+.read{
+    width: 100%;
+    border: solid 1px gray;
+    border-top: none;
+    border-bottom: none;
+}
+.views{
+    width: 100%;
+}
+.comments{
+    width: 100%;
+    border: solid 1px gray;
+    border-top: none;
+    border-bottom: none;
+}
