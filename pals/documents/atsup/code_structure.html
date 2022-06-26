@@ -1,0 +1,591 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Atsup Code Overview &#8212; atsup_doc 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="index.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Run_atsup.py" href="run_atsup.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="index.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="run_atsup.html" title="Run_atsup.py"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">atsup_doc 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="atsup-code-overview">
+<h1>Atsup Code Overview<a class="headerlink" href="#atsup-code-overview" title="Permalink to this headline">¶</a></h1>
+<p>This page gives an overview of the code structure to help developers on their
+way to make changes to the code and implement new features.</p>
+<div class="section" id="general-remarks">
+<h2>General remarks<a class="headerlink" href="#general-remarks" title="Permalink to this headline">¶</a></h2>
+<p>Here, we list a couple of points that may make it easier to understand what is
+going on in the code.</p>
+<ul class="simple">
+<li>The code first calculates the potentials on a 3d real space grid, then solves
+for the positron state on the grid.</li>
+<li>Atomic quantities are stored on (logarithmically spaced) radial grids. Hence
+the code has to project these on the 3d grid before</li>
+<li>Quite some of the main tasks in the code are designed as a driver routine. It
+decides how something should be calculated, according to the input, and calls
+the appropriate subroutines.</li>
+<li>The main variables are gathered in several derived types (data structures),
+which are stored in the <cite>glovar</cite> module (in <cite>variables.f90</cite>). The most
+important are: <cite>geom</cite>, <cite>sys</cite>. The first contains all the information related
+with the unit cell, including the atomic data. The <cite>sys</cite> variable contains
+most of the relevant quantities on the 3d real space grid, such as the
+potentials and the 3d electron density.</li>
+<li>Quite regularly, the <cite>glovar</cite> is used to pass variables around. The reason for
+this is mainly to keep the function calls manageable.</li>
+</ul>
+</div>
+<div class="section" id="structure-of-the-code">
+<h2>Structure of the code<a class="headerlink" href="#structure-of-the-code" title="Permalink to this headline">¶</a></h2>
+<p>The atsup code is quite linear, and performs the following tasks:
+1. Read the input.
+2. Calculated the Coulomb potential.
+3. Determine the electron density on a 3d real space grid.
+4. Calculate the correlation potential.
+5. Solve the Kohn-Sham equation to obtain the positron wavefunction and positron
+density on a 3d real space grid.
+6. Determine annihilation properties.
+7. Calculate forces on the atoms.</p>
+<div class="section" id="reading-of-the-input">
+<h3>Reading of the input<a class="headerlink" href="#reading-of-the-input" title="Permalink to this headline">¶</a></h3>
+<p>Reading of the input consists of the followin tasks:
+1. Parse the <cite>input_atsup</cite> file.
+2. Read the <cite>ATOM</cite> file that contains the atomic densities.
+3. If specified, a valence electron density is read.</p>
+</div>
+<div class="section" id="calculating-the-coulomb-potential">
+<h3>Calculating the Coulomb potential<a class="headerlink" href="#calculating-the-coulomb-potential" title="Permalink to this headline">¶</a></h3>
+<p>The Coulomb potential is determined as</p>
+<div class="math notranslate nohighlight">
+\[v_c(\textbf{r}) =
+   v_\mathrm{c,core}(\textbf{r}) +
+   v_\mathrm{c,valence}(\textbf{r})\]</div>
+<p>where the core potential <span class="math notranslate nohighlight">\(v_\mathrm{c,core}\)</span> on the 3d grid is determined
+by projecting the atomic core Coulomb potential on the 3d grid. The core part of
+the atomic Coulomb potential also takes into account a part of the ionic
+potential. More specifically, the potential due to a point charge with the same
+magnitude as the core charge of the ionic species. In case of the atomic
+superposition, not just the core part but also the valence part is projected.</p>
+<p>If a valence electron density is supplied as input, the valence potential is
+determined by solving the Poisson equation</p>
+<div class="math notranslate nohighlight">
+\[\nabla^2 v_\mathrm{c, valence} = \rho^e_\mathrm{val}
+   + \sum_i \rho^\mathrm{ion}_\mathrm{i, val}.\]</div>
+<p>Here, the <span class="math notranslate nohighlight">\(\rho^e_\mathrm{val}\)</span> is the valence electron density. The
+charge of the ions <span class="math notranslate nohighlight">\(rho^\mathrm{ion}_\mathrm{i, val}\)</span> is initially
+represented as a gaussian density with a charge exactly opposite to the valence
+charge of the ion. If there is excess charge in the unit cell, a uniform
+background charge is added to neutralize it. Once the charge density in the
+right hand side is constructed, the Poisson equation is solved in reciprocal
+space where</p>
+<div class="math notranslate nohighlight">
+\[v_\mathrm{c, valence}(\textbf{G}) =
+   \frac{c_\mathrm{G}}{\vert \mathbf{G} \vert^2}
+   \quad for \mathbf{G} \ne 0.\]</div>
+<p>The final potential is obtained by transforming back to real space.</p>
+<p>Now the potential due to the gaussian charges is not correct close to the center
+of the gaussians. Hence, after solving the Poisson equation, we subtract the
+potential due to the gaussians (which we know analytically), and replace it with
+the correct point charge potential.</p>
+</div>
+<div class="section" id="calculation-of-the-correlation-potential">
+<h3>Calculation of the correlation potential<a class="headerlink" href="#calculation-of-the-correlation-potential" title="Permalink to this headline">¶</a></h3>
+<p>In the LDA the correlation potential is simply obtained by calculating a
+parametrized function of the total electron density. In case of the GGA, a
+correction to the LDA is applied in a second step. Note that in the GGA the
+gradient of the electron density is calculated (called somewhere in the main()).</p>
+<p>For the WDA, first the sumrule has to be solved, after which the potential can
+be obtained by calculating the Coulomb interaction of the positron with its
+screening cloud. (To be extended)</p>
+<p>(Add some info on the CMM)</p>
+</div>
+<div class="section" id="solving-for-the-positron-state">
+<h3>Solving for the positron state<a class="headerlink" href="#solving-for-the-positron-state" title="Permalink to this headline">¶</a></h3>
+<p>Once the Coulomb and correlation potentials are obtained, the positron ground
+state is found from</p>
+<div class="math notranslate nohighlight">
+\[\left(
+   -\frac{m_p}{2} \nabla^2 + v_\mathrm{Coulomb} + v_\mathrm{correlation}
+\right) \psi^p = \varepsilon \psi^p\]</div>
+<p>Note that in general <span class="math notranslate nohighlight">\(m_p = 1\)</span>. Though, for some purposes it is convient
+to be able to rescale the positron mass.</p>
+</div>
+<div class="section" id="calculation-positron-annihilation-properties">
+<h3>Calculation positron annihilation properties<a class="headerlink" href="#calculation-positron-annihilation-properties" title="Permalink to this headline">¶</a></h3>
+<p>Once the positron state is calculated, the code proceeds with the calculation of
+the annihilation rates. They are obtained from</p>
+<div class="math notranslate nohighlight">
+\[\lambda = \frac{1}{\tau} = \pi r_e^2 c \int d\textbf{r} \rho^e(\textbf{r})
+   \rho^p(\textbf{r}) \gamma(\rho^e(\textbf{r})).\]</div>
+<p>The enhancement factor <span class="math notranslate nohighlight">\(\gamma\)</span> is obtained from the appropriate
+parametrization implemented in the <span class="math notranslate nohighlight">\(correlation\)</span> module. Note that it is
+always the total electron density that enters in the calculation of the
+enhancement factor, also when calculating orbital annihilation rates. For the
+calculation of the orbital annihilation rates, the total electron density is
+replaced by the atomic density of a given shell and species. Keep in mind that
+the orbital annihilation rates are also calculated using the atomic densities,
+and not the self-consistent electron density if it is provided as input.</p>
+<p>A note on the normalization of the positron density: Since we are working in the
+zero-density limit, the positron density approaches zero everywhere. Though, its
+integral over space should be equal to unity since we assume there is a single
+positron in crystal. Instead of integrating over the entire space, we can
+integrate over a single unit cells (all unit cells give the same infinitely
+small contribution) provided we normalize the positron density to unity.</p>
+<p>The correlation energy is obtained from</p>
+<div class="math notranslate nohighlight">
+\[E_\mathrm{correlation} = \int d\textbf{r} \rho^p(\textbf{r})
+   v_\mathrm{correlation}(\textbf{r}).\]</div>
+</div>
+<div class="section" id="calculation-of-the-forces-on-the-ions">
+<h3>Calculation of the forces on the ions<a class="headerlink" href="#calculation-of-the-forces-on-the-ions" title="Permalink to this headline">¶</a></h3>
+<p>(Needs explanation)</p>
+</div>
+</div>
+<div class="section" id="overview-files-modules">
+<h2>Overview files/modules<a class="headerlink" href="#overview-files-modules" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>atsup.f90</strong> :</dt>
+<dd><p class="first">Implements the routines to project atomic quantities from the radial
+logarithmic grids to the 3d real space grid.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>atsup_valden</strong> :</dt>
+<dd>Driver routine that loops over all atoms in the unit cell and calls the
+projection routine for the valence electron density. Only used in the
+atomic superposition mode.</dd>
+<dt><strong>atsup_coreden</strong> :</dt>
+<dd>Driver routine that loops over all atoms in the unit cell and calls the
+projection routine for the core electron density.</dd>
+<dt><strong>atsup_coul</strong> :</dt>
+<dd>Driver routine that loops over all atoms in the unit cell and calls the
+projection routine for the coulomb potential. Only projects the core
+contribution in the case a valence density is provided.</dd>
+<dt><strong>atsup_proj</strong> :</dt>
+<dd>Projection routine that projects a quantity from a logarithmic radial
+grid onto a 3d realspace grid.</dd>
+<dt><strong>radial_gradient</strong> :</dt>
+<dd>Routine to calculate the radial component of the gradient.</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt><strong>cg_solver.f90</strong> :</dt>
+<dd><p class="first">The Schrodinger solver at the atsup package.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>schro3</strong> :</dt>
+<dd>Calculates the groundstate wavefunction of the Kohn-Sham Hamiltonian.</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt><strong>common_fun.f90</strong> :</dt>
+<dd><p class="first">Contains various functions that do not immediately fit elsewhere.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>set_timer</strong>:</dt>
+<dd>Start and stops a timer.</dd>
+<dt><strong>cross</strong>:</dt>
+<dd>Calculates the cross product of two vectors.</dd>
+<dt><strong>determinant</strong>:</dt>
+<dd>Calculates the determinant of a matrix using LAPACK.</dd>
+<dt><strong>frac_dist</strong>:</dt>
+<dd>Determines the shortest vector between two given points in the unit
+cell. See subroutine for extra info.</dd>
+<dt><strong>influence_parallellepiped</strong>:</dt>
+<dd>Finds the smallest parallellepiped that contains the ellipsoid
+deterimined by the given cutoff. See subroutine for extra info.</dd>
+<dt><strong>interpolate</strong>:</dt>
+<dd>Calculates <span class="math notranslate nohighlight">\(c\)</span> such that <cite>f = f_1 + c * (f_2 - f_1)</cite>. Used
+somewhere in the CMM routines. (Should maybe be refactored.)</dd>
+<dt><strong>invert_matrix</strong>:</dt>
+<dd>Inverts a matrix using LAPACK.</dd>
+<dt><strong>ions_cart_to_frac</strong>:</dt>
+<dd>Convert the ionic positions from cartesian coordinates to fractional
+coordinates.</dd>
+<dt><strong>ions_frac_to_cart</strong>:</dt>
+<dd>Convert the ionic positions from fractional coordinates to cartesian
+coordinates.</dd>
+<dt><strong>swap_real</strong>:</dt>
+<dd>Swaps two doubles.</dd>
+<dt><strong>kahan_sum</strong>:</dt>
+<dd>Sums an array using the Kahan algorithm. More accurate than a standard
+summation for large arrays.</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt><strong>correlation.f90</strong> :</dt>
+<dd><p class="first">Contains all routines to calculate the correlation potential and enhancement
+terms.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>correlation_positron</strong> :</dt>
+<dd>Driver routine that calls the functional selected in the input.</dd>
+<dt><strong>correlation_positron_local</strong> :</dt>
+<dd>Calculates the correlation potential if the LDA/GGA is selected. First
+calls the appropriate LDA functional, and afterward applies the GGA
+correction.</dd>
+<dt><strong>gga_epsilon</strong> :</dt>
+<dd>Calculates the <span class="math notranslate nohighlight">\(epsilon\)</span> term that shows up in the GGA correction
+to the LDA.</dd>
+<dt><strong>lda_dr</strong> :</dt>
+<dd>Calculates the Drummond LDA potential.</dd>
+<dt><strong>lda_bn</strong> :</dt>
+<dd>Calculates the Boronski-Nieminen LDA potential.</dd>
+<dt><strong>lda_ar</strong> :</dt>
+<dd>Calculates an LDA potential derived from the Brandt-Reinheimer
+enhancement factor. See the parameters documentation for more
+information.</dd>
+<dt><strong>enhance</strong> :</dt>
+<dd>Driver routine that calls the appropriate enhancement function. If
+specified in the input, applies the GGA correction or the enhancement
+correction in the CMM.</dd>
+<dt><strong>enhance_dr</strong>:</dt>
+<dd>Calculates the Drummond enhancement factor.</dd>
+<dt><strong>enhance_bn</strong>:</dt>
+<dd>Calculates the Boronski-Nieminen enhancement factor.</dd>
+<dt><strong>enhance_ar</strong>:</dt>
+<dd>Calculates the Brandt-Reinheimer enhancement factor.</dd>
+<dt><strong>image_potential</strong>:</dt>
+<dd>Applies the CMM correction to the LDA.</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt><strong>derint.f90</strong> :</dt>
+<dd>Mostly old code. Not sure if we still use those functions.</dd>
+<dt><strong>fftw03.f90</strong>:</dt>
+<dd>Interfaces to the FFTW3 subroutines to perform FFTs.</dd>
+<dt><strong>file_io.f90</strong>:</dt>
+<dd><p class="first">Does all the reading from and write to files.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>read_input</strong> :</dt>
+<dd>Sets default parameters then parses the input file <cite>input_atsup</cite>. Also
+performs some sanity checks after parsing the input file. Thereafter,
+calls the routines to read in the unit cell information, atom input
+file and (possibly) the valence electron density.</dd>
+<dt><strong>read_atom</strong> :</dt>
+<dd>Reads the atomic input file <cite>ATOM</cite>. Calculates some atomic properties
+as well.</dd>
+<dt><strong>read_elden</strong> :</dt>
+<dd>Reads in an electron density file from VASP or QE.</dd>
+<dt><strong>read_geometry</strong> :</dt>
+<dd>Read the unit cell information from a VASP POSCAR, or from the QE
+equivalent.</dd>
+<dt><strong>read_poscar_header</strong> :</dt>
+<dd>Reads the POSCAR header for VASP input files.</dd>
+<dt><strong>check_poscar_header</strong> :</dt>
+<dd>Checks if the POSCAR header from a VASP input file corresponds with the
+currently used unit cell.</dd>
+<dt><strong>read_poswf</strong> :</dt>
+<dd>Reads in a positron wavefunction.</dd>
+<dt><strong>read_gridquant</strong> :</dt>
+<dd>Reads in a quantity defined on a 3d realspace grid.</dd>
+<dt><strong>read_atom_md</strong> :</dt>
+<dd>Reads in atomic momentum densities.</dd>
+<dt><strong>write_input</strong> :</dt>
+<dd>Report the parameters set in the calculation to the main output file.</dd>
+<dt><strong>write_poscar</strong> :</dt>
+<dd>Write a POSCAR header.</dd>
+<dt><strong>write_results</strong> :</dt>
+<dd>Report the main results of the calculation to the main output file.</dd>
+<dt><strong>write_gridquant</strong> :</dt>
+<dd>Write a quantity defined on a 3d realspace grid to a file.</dd>
+<dt><strong>write_atom_md</strong> :</dt>
+<dd>Write the calculated atomic momentum densities to a file.</dd>
+<dt><strong>parse</strong> :</dt>
+<dd>Find a keyword in a file. More info in the subroutine.</dd>
+<dt><strong>buffer_entries</strong>:</dt>
+<dd>Determine the number of space separated entries in a string.</dd>
+<dt><strong>skip</strong> :</dt>
+<dd>Skip a number of lines in a file.</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+<p><strong>forces.f90</strong> :</p>
+<blockquote>
+<div><p><em>Subroutines:</em></p>
+<blockquote>
+<div><dl class="docutils">
+<dt><strong>force</strong>:</dt>
+<dd>Calculates the force of the positron an the ions in the cell.</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+<p><strong>gradient.f90</strong> :</p>
+<blockquote>
+<div><p><em>Subroutines:</em></p>
+<blockquote>
+<div><dl class="docutils">
+<dt><strong>calculate_3dgradient</strong>:</dt>
+<dd><p class="first">Calculates the gradient on a 3d real space grid using finite
+differences.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>periodic_bc</strong>:</dt>
+<dd>Auxiliary function to apply periodic boundary conditions at the
+edge of the unit cell.</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</div></blockquote>
+</div></blockquote>
+<dl class="docutils">
+<dt><strong>main.f90</strong> :</dt>
+<dd>The main function of the program. It is the driver routine that calls the
+required subroutines to perform the positron calculation.</dd>
+<dt><strong>poisson.f90</strong> :</dt>
+<dd><p class="first">Solves the Poisson equation if a valence density is provided.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>poisson_valence</strong> :</dt>
+<dd>Driver routine that prepares the valence density prior to calling the
+Poisson solver.</dd>
+<dt><strong>add_gauss</strong> :</dt>
+<dd>Adds a gaussian to the density for each ion in the unit cell, with a
+charge equal to the valence charge of the ion.</dd>
+<dt><strong>correct_potential</strong> :</dt>
+<dd>Replaces the potential induced by the gaussian charges with the correct
+point-charge Coulomb potential.</dd>
+<dt><strong>poisson_fftsolve</strong> :</dt>
+<dd>Solves the Poisson equation using FFTs.</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt><strong>pwfn.f90</strong> :</dt>
+<dd>Routines related to Toffe’s work. Not sure what it does.</dd>
+<dt><strong>quadrature.f90</strong> :</dt>
+<dd><p class="first">Implements some simple routines for integration.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>integrate</strong> :</dt>
+<dd>Integrate a quantity using pre-calculated weights.</dd>
+<dt><strong>setup_simpson_weights</strong> :</dt>
+<dd>Calculates the weights to perform integrations using Simpson’s rule.</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt><strong>results.f90</strong> :</dt>
+<dd><p class="first">Calculates annihilation properties.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>results</strong> :</dt>
+<dd>Calculates the annihilation rates and positron annihilation lifetimes
+in the IPM and LDA. Calls the subroutines to calculate the orbital
+annihilation rates, and the atomic momentum densities.</dd>
+<dt><strong>orbital_ar</strong> :</dt>
+<dd>Calculates the atomic annihilation rates.</dd>
+<dt><strong>atomic_momden</strong> :</dt>
+<dd>Calculates atomic momentum densities. More information provided in the
+subroutine.</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt><strong>root_finding.f90</strong> :</dt>
+<dd><p class="first">Implements routines for finding roots of (non-linear) functions.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>newton</strong> :</dt>
+<dd>Updates the guess for the location of the root using Newton’s method.</dd>
+<dt><strong>haley</strong> :</dt>
+<dd>Update he guess for the location of the root using Haley’ method.
+(Untested)</dd>
+<dt><strong>brent</strong> :</dt>
+<dd>Update the guess for the location of the root using Brent’s method.</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt><strong>solve.f90</strong> :</dt>
+<dd><p class="first">Contains the driver routine for the Schrodinger solver.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>solve_positron</strong> :</dt>
+<dd>Driver routine that calls the solver for the positron state.</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt><strong>timing.f90</strong> :</dt>
+<dd><p class="first">Contain functions to start/stop timers and report time spent in routines.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>set_progressbar</strong> :</dt>
+<dd>Setup a progress bar to track the progress of a calculation.</dd>
+<dt><strong>update_progressbar</strong> :</dt>
+<dd>Update a progress bar to show to reflect the progress of a calculation.</dd>
+<dt><strong>start_timer</strong> :</dt>
+<dd>Start a timer.</dd>
+<dt><strong>read_timer</strong> :</dt>
+<dd>Read the time on a timer.</dd>
+<dt><strong>time_to_hms</strong> :</dt>
+<dd>Convert the timing variables to hours, minutes and seconds.</dd>
+<dt><strong>print_timer</strong> :</dt>
+<dd>Print the timer info.</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt><strong>variables.f90</strong> :</dt>
+<dd>Module with the global variables. Many of which are gathered in derived types
+defined at the beginning of the module. All variables are documented there.</dd>
+<dt><strong>wda.f90</strong> :</dt>
+<dd><p class="first">Submodule of <cite>correlation.f90</cite>. Bundles all routines relevant for the WDA.</p>
+<p><em>Subroutines:</em></p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt><strong>correlation_positron_wda</strong> :</dt>
+<dd>Driver routine that calculates the WDA potential. It loops over the
+grid of the system and each point it first sets up the data structures
+required to (quickly) solve the sumrule and potential. Afterwards it
+solves the sumrule, and finally evaluates the potential.</dd>
+<dt><strong>report_wda</strong> :</dt>
+<dd>Print some quantities related with the WDA to the main output file.</dd>
+<dt><strong>setup_wda</strong> :</dt>
+<dd>Routine that initializes the data structures related to the sumrule
+solver. Calls subroutines to initialize data structures to perform the
+WDA integrals.</dd>
+<dt><strong>setup_wda_realspace</strong> :</dt>
+<dd>Initializes the data structures required to perform the real space
+integration of the WDA integrals.</dd>
+<dt><strong>setup_wda_kspace</strong> :</dt>
+<dd>Initializes the data structures required to perform the reciprocal
+space integration of the WDA integrals.</dd>
+<dt><strong>update_wda</strong> :</dt>
+<dd>Driver routine to update datastructures to evaluate the WDA integrals
+at a new gridpoint.</dd>
+<dt><strong>update_kspace</strong> :</dt>
+<dd>Updates the data arrays required to perform the WDA integrals in
+reciprocal space.</dd>
+<dt><strong>update_kspace</strong> :</dt>
+<dd>Updates the data arrays required to perform the WDA integrals in
+real space.</dd>
+<dt><strong>update_core</strong> :</dt>
+<dd>Updates the data arrays required to calculate the core contributions to
+the WDA integrals. (Always in real space.)</dd>
+<dt><strong>calc_sumrule</strong> :</dt>
+<dd>Calculates the screening charge.</dd>
+<dt><strong>val_scr_realspace</strong> :</dt>
+<dd>Evaluates the valence contribution to the WDA sumrule integral in real
+space.</dd>
+<dt><strong>val_scr_kspace</strong> :</dt>
+<dd>Evaluates the valence contribution to the WDA sumrule integral in
+reciprocal space.</dd>
+<dt><strong>core_scr_realspace</strong> :</dt>
+<dd>Evaluates the core contribution to the WDA sumrule integral in real
+space.</dd>
+<dt><strong>calc_vcorr</strong> :</dt>
+<dd>Calculate the correlation potential.</dd>
+<dt><strong>val_pot_realspace</strong></dt>
+<dd>Evaluates the valence contribution to the WDA potential integral in
+real space.</dd>
+<dt><strong>val_pot_kspace</strong></dt>
+<dd>Evaluates the valence contribution to the WDA potential integral in
+reciprocal space.</dd>
+<dt><strong>core_pot_realspace</strong></dt>
+<dd>Evaluates the core contribution to the WDA potential integral in real
+space.</dd>
+<dt><strong>pair_correlation</strong></dt>
+<dd>Calculates the quantities that determine the pair correlation function.</dd>
+<dt><strong>local_scr_chg</strong></dt>
+<dd>Determine the local target value of the sumrule.</dd>
+<dt><strong>enhance_der_dr</strong></dt>
+<dd>Derivative with respect to the density of the Drummond enhancement
+factor.</dd>
+<dt><strong>enhance_der_bn</strong></dt>
+<dd>Derivative with respect to the density of the Boronski-Nieminen
+enhancement factor.</dd>
+<dt><strong>enhance_der_ar</strong></dt>
+<dd>Derivative with respect to the density of the Brandt-Reinheimer
+enhancement factor.</dd>
+<dt><strong>solve_sumrule</strong></dt>
+<dd>Algorithm that finds the roots of the sumrule equation.</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt><strong>write_io.f90</strong> :</dt>
+<dd>Related to Toffe’s work. Not sure what it does.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="run_atsup.html"
+                        title="previous chapter">Run_atsup.py</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="index.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="run_atsup.html" title="Run_atsup.py"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">atsup_doc 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Atsup devs.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+    </div>
+  </body>
+</html>

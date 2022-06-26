@@ -1,0 +1,228 @@
+Tutorials
+*********
+
+Here, we provide two simple tutorials to help you on your way doing 
+basic calculations with the atsup code. Each of the tutorials treats a different
+'mode' the code works in. The first is the so-called 'atomic superposition'
+mode, in which the density is determined from free-atom densities. The second
+mode, which I will call the 'VASP' mode for now, imports the self-consistent
+valence electron density from a VASP groundstate calculation, and adds free-atom
+core electron densities to it.
+
+Atomic superposition
+====================
+
+In this tutorial, we go through the required steps to calculate the positron
+annihilation lifetime of bulk Si, using the atomic superposition mode.
+
+Preparing the input
+-------------------
+
+Create a file `input_atsup` with the following ('file: input' does not have to
+go in the file)
+
+.. topic:: file: `input_atsup`
+
+   | atsup_mode
+   | 0
+   | 
+   | input_geometry
+   | .true. 2 POSCAR
+   | 
+   | species_names
+   | Si
+   | 
+   | species_charges
+   | 14 10 4
+   | 
+   | grid
+   | 40 40 40
+
+The input file consists of a list a keywords (e.g. 'grid') followed by one or
+several lines of parameters (e.g. '40 40 40'). Each such entry should be
+followed by a blank line. Lines starting with '!' or '#' are ignored and can be
+used to add comments. 
+
+.. warning:: The parser ignores unrecognized keywords currently. Double check
+   that you get the keywords correctly to avoid nonsence output.
+   
+
+Here is a brief description of the keywords set in the
+above input file.
+
+
+* **atsup_mode** Tells atsup to run in atomic superposition mode if the value
+  '0' is given.
+* **input_geometry** Specifies which input file to read the unit cell geometry
+  from and what format it has. The first argument '.true.' tells atsup to look
+  for a file, which follows the VASP convention ('2') and has the name 'POSCAR'.
+* **species_names** Defines the name(s) of the elements in the unit cell (here
+  'Si'). This is required for the atomic program to calculate the free atomic
+  orbitals. All species names should be on the same line, seperated by spaces.
+* **species_charges** Sets the total number of electrons of each species ('14'),
+  as well as the number of electrons to consider as core electrons ('10') and as
+  valence ('4'). Obviously, the number of core and valence electrons have to add
+  up to the total. For each species, there is a separate line with these three
+  numbers.
+* **grid** Specifies the number of gridpoints along each axis of the unit cell.
+  The more points you take, the more accurate the result gets but the longer the
+  calculation takes. This number should be increased until convergence is
+  reached. The code only works in three dimensions, so do not try to put
+  anything else than three integers.
+
+   .. note:: Due to the real space grid used in the calculations and the fact
+      that core electron densities are projected on this grid, the results
+      will always vary some, even at very dense grids. You can consider the
+      calculation converged if the lifetime varies around ~ 0.1 ps between two
+      chosen grids.
+
+
+Next, let us create the 'POSCAR' file we told atsup to look for. 
+
+.. topic:: file: POSCAR
+
+   |  Primitive cell of Si
+   |  5.43     
+   |    0.000    0.500    0.500
+   |    0.500    0.000    0.500
+   |    0.500    0.500    0.000
+   |  Si
+   |    2
+   |  Direct
+   |  0.000  0.000  0.000
+   |  0.250  0.250  0.250
+ 
+Here is a brief description of the file:
+
+* Line 1: Description of the unit cell. Ignored by the code.
+* Line 2: Scaling parameter of the cell axes and atomic positions (if they are
+  given in cartesian coordinates).
+* Lines 3-5: Vectors defining the unit cell. Each line gives the cartesian
+  coordinates for the respective axis.
+* Line 6: Name(s) of the species(s)
+* Line 7: Number of atoms of each species
+* Line 8: Coordinate system for the atom list. Either 'Cartesian' of 'Direct'.
+  In the latter convention, the atomic coordinates are given with respect to the
+  cell axes.
+* Line 9-: Coordinates each each atom. (First all positions of the first
+  species, then of second and so on.)
+
+This is all the input required for an atomic superposition calculation.
+
+
+Running the calculation
+-----------------------
+
+Running a calculation is a simple as executing the 'run_atsup.py' file in the
+atsup root directory.
+
+.. todo:: Add the path to the 'run_atsup.py' script.
+
+
+Produced output
+---------------
+
+Using the parameters from the input file above, you will notice that the
+following new files appeared in the working directory
+
+* **Si.in** : Can be ignored. This files contains the parameters used to
+  calculate the free atomic orbitals. 
+* **orb.dat** : Can be ignored. Contains the atomic orbitals of the last species
+  the atomic program calculated the orbitals for.
+* **ATOM** : Can be ignored. Contains the atomic orbitals for all species in the
+  calculation, serves as input for the atsup program.
+* **fort.xx** : Can be ignored. Garbage created by the atomic code. Does not
+  contain anything useful.
+* **output** : The main output file of the atsup program. Discussed more at length
+  below.
+* **posden** : The positron density calculated on the grid. The first line given
+  the number of gridpoints along each direction. The rest of the entries give
+  the positron density at each of the points (i1, i2, i3) on the grid. The data
+  is written in the typical Fortran layout, so the first index varies the
+  fastest.
+* **posdenenh** : Similar to posden, but contains the positron density
+  multiplied with the local enhancement factor. Used in momentum density
+  calculation with the program 'epos'.
+
+.. todo:: Maybe the script should remove irrelevant files after the run.
+
+In the main output file, you will first find detailed information about what
+parameters were set in the calculation, under the 'list of input parameters'
+section. The results of the calculation can be found under the 'Results'
+section. Typically the code calculate the positron annihilation lifetimes, the
+positron eigenvalue, and the correlation energy. Here is some additional
+information on the results written:
+
+* **LDA vs IPM** : Refers to the lifetime result calculated including (LDA) or
+  excluding (IPM) the enhancement factor. The latter is equivalent with the
+  overlap of the positron state with the electrons density in question.
+* **Lifetime vs Annihilation Rate** : The lifetime is obtained as the inverse of
+  the annihilation rate.
+* **Core vs Valence** : Gives the lifetime calculated with the valence and core
+  densities seperately. The core and valence densities are determined by the
+  charges given in the input file with the keywords 'species_charges'. Note that
+  the enhancement factor for the LDA result is always calculated using the total
+  electron density.
+* **Orbital annihilation rates** : Gives the annihalion rate with each of the
+  atomic orbitals. Here 'n' is the principal quantum number, and 'kappa' the
+  angular quantum number from relativistic quantum mechanics. Basically, we have
+  :math:`\kappa = l - 1`, with l the more familiar angular quantum number of the
+  hydrogen atom in non-relativistic quantum mechanics.
+
+
+VASP mode
+=========
+
+In this tutorial, we go through the required steps to calculate the positron
+annihilation lifetime of bulk Si, using the VASP mode. I assume you already went
+through the atomic superposition tutorial, so I will refer to it from time to
+time.
+
+In fact, the only difference between the two modes is the preparation of the
+input files, so I will only explain that.
+
+
+Preparing the input
+-------------------
+
+First of all, perform a VASP groundstate calculation. (I will not tell you how
+to do this here. There are enough decent tutorials you can find on the web.) We
+will only need the 'CHGCAR' file from that calculation. So either copy that file
+into the folder you want to run the atsup calculation in, or create the input
+file for atsup in your VASP working directory. 
+
+This time we will use the following input file
+
+.. topic:: file: `input_atsup`
+
+   | atsup_mode
+   | 1
+   | 
+   | input_eldenval
+   | .true. 2 CHGCAR
+   | 
+   | species_names
+   | Si
+   | 
+   | species_charges
+   | 14 10 4
+
+
+Note that most of the input is the same as for the atomic superposition
+calculation. The differences are
+
+* **atsup_mode** : Now we inserted '1', the code will only add the free-atom
+  core densities. Note that it is crucial that for each species, you select the
+  same number of valence electrons as is the case in the VASP groundstate
+  calculations, where it is determined by the POTCAR file. You can check it by
+  looking for the 'ZVAL' keyword in the VASP POTCAR. Note that in the above
+  example, I used a standard Si POTCAR with the 3s and 3p electrons in the
+  valence.
+* **input_eldenval** : Here we tell atsup to look for a valence electron density
+  file ('.true.'), which has the VASP format ('2') and the name 'CHGCAR'. Since
+  the geometry information is already included in the CHGCAR, atsup will read it
+  from there. In fact, if you additionally provide a separate POSCAR file as in
+  the atomic superposition tutorial, the code will ignore it. (And it will tell
+  you that it did.)
+
+The rest of the input stays the same.

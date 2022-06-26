@@ -1,0 +1,720 @@
+Parameters
+**********
+
+This list contains all parameters that can be set in the `input_atsup` file.
+
+Correlation
+===========
+**poscorr** : *Integer*
+
+   Selects the electron-positron correlation functional and corresponding
+   enhancement factor.
+
+   *Possible values:*
+
+      **1** : Drummond LDA (`Drummond2011`_)
+
+      **2** : Boronski-Nieminen LDA (`Boronski1986`_)
+
+      **3** : LDA derived from the Brandt-Reinheimer enhancement factor. See 
+      `Brandt1970`_, `Brandt1971`_, `Rubaszek1991`_, `Callewaert2017`_. 
+
+      **4** : LDA parametrization by `Barbiellini1995`_ based on data by 
+      Arponen and Pajanne. 
+
+      **10** : WDA based on the Drummond (`Drummond2011`_) enhancement factor.
+      See `Callewaert2017`_ for details.
+
+      **20** : WDA based on the Boronski-Nieminen enhancement factor
+      (`Boronski1986`_). See `Callewaert2017`_ for details.
+
+      **30** : WDA based on the Brandt-Reinheimer enhancement factor. See
+      `Rubaszek1991`_ and `Callewaert2017`_ for details.
+
+   *Default:*
+   ::
+
+      poscorr
+      1
+ 
+
+**alpha_gga**: *Float*
+
+   Value of the :math:`\alpha` parameter of the GGA. 
+
+   For :math:`\alpha = 0`, no gradient corrections are applied.
+
+   For :math:`\alpha > 0`, the traditional GGA correction is applied. According
+   to `Barbiellini1995`_, :math:`\alpha = 0.22` is a sensible value to use with
+   the Arponen-Pajanne LDA enhancement. For the Drummond LDA, :math:`\alpha = 0.05`
+   was determined in Ref. `Kuriplach2014`_.
+   
+   If :math:`\alpha < 0`, the parameter-free GGA is selected. See
+   `Barbiellini2015`_ for details.
+
+   *Default:*
+   ::
+      alpha_gga
+      0.0
+
+
+**wda_maxiter** : *Integer*
+
+   Determines the maximum number of iterations in the WDA sumrule solver. A
+   warning is thrown if the algorithm does not reduce the residual error below
+   the parameter ``wda_tol``.
+
+   *Default:*
+   ::
+
+      wda_maxiter
+      1000
+   
+
+**wda_cutoff** : *Float Float Float*
+   
+   The radius of the ellipsoid used to calculate the WDA integrals with the
+   realspace algorithm. Given in Bohr.
+
+   *Default:*
+   ::
+
+      wda_cutoff
+      12.0 12.0 12.0
+
+
+**wda_tol** : *Float*
+
+   Tolerance on the sumrule. Once the residual error on the WDA sumrule falls
+   below this value, the algorithm considers the sumrule solved.
+
+   *Default:*
+   ::
+
+      wda_tol
+      1.0e-5
+
+
+**wda_scrchg** : *Float*
+   
+   Value of the sumrule target :math:`Q` . See `Callewaert2017`_ for details.
+
+   *Default:*
+   ::
+
+      wda_scrchg
+      1.0
+
+
+**wda_enh** : *Logical*
+
+   If the WDA is selected, use the effective density :math:`n_e^*` in the 
+   enhancement factor. If disabled, use the true total electron density like in
+   the LDA.
+
+   *Default:*
+   ::
+
+      wda_enh
+      .true.
+
+
+**wda_shell_partitioning** : *Integer*
+
+   Select the shell partitioning scheme to use in the WDA. See `Callewaert2017`_
+   for details.
+
+   *Possible values:*
+
+      **0** : No shell partitioning. Treat core electrons in the WDA.
+
+      **1** : Not supported.
+
+      **2** : Przybylski shell partitioning. Treat core electron in the LDA. See
+      `Callewaert2017`_ for details.
+
+   *Default:*
+   ::
+
+      wda_shell_partitioning
+      2
+
+
+**wda_root_algo** : *Integer*
+
+   Determines the root finding algorithm used in solving the WDA sumrule.
+
+   *Possible values:*
+   
+      **0** : Brent's method.
+
+      **1** : Newton's method with bisection fallback. Generally faster.
+
+   *Default:*
+   ::
+
+      wda_root_algo
+      1
+
+
+**wda_realspace** : *Logical*
+
+   Selects the integration scheme for the WDA integrals.
+
+   *Possible values:*
+
+      **.true.** : Real space integration. Less accurate and generally slower
+      than the reciprocal space integration. Scales better for large systems.
+      Cutoff radii are determined by the parameter ``wda_cutoff``.
+
+      **.false.** : Reciprocal space integration. More accurate and generally
+      significantly faster. Worse scaling for larger systems.
+
+   *Default:*
+   ::
+
+      wda_root_algo
+      .false.
+
+
+**include_image** : *Integer Integer Float*
+
+   Apply the corrugated mirror model of `Nieminen1983`_.
+
+   The three numbers are in order: The method for the construction of the image
+   potential, the index of the last atom at the surface, and the offset of the
+   image potential reference plane with respect to this last atom. The index of
+   the atom is the same as in the provided file. The offset is given in Bohr.
+
+   *Possible Values Method:*
+
+      **0** : Do not include the image potential.
+
+      **1** : Apply a smooth image potential, with corrugations. Note that the
+      potential at the surface is discontinuous an that case.
+
+      **2** : Average the electron density over the planes parallel to the
+      surface and calculate the image potential :math:`v_{im} = -1/4(z - z_0)`.
+      Use these results as the reference for the construction of the corrugated
+      mirror potential.
+
+      **3** : Same as 2, but fall back to the image potential formula when the
+      electron density drops below ``image_den_lbound``. This method is more
+      robust than method 2, since mostly the self-consistent density electron
+      density is somewhat noisy far in the vacuum, and approach a constant
+      (albeit low) value.
+
+   *Default:*
+   ::
+
+      include_image
+      0 0 0.0
+
+      
+**image_den_lbound**: *Float*
+
+   Density lower bound used in method 3 of the corrugated mirror model. Always
+   check if the default value is sensible!
+
+   *Default:*
+   ::
+      
+      den_lbound
+      1.0e-7
+
+
+**modify_enhancement**: *Logical*
+
+   Use the IPM for the enhancement factor for each gridpoint where the image
+   potential is impose in the corrugated mirror model. Only relavant if the
+   corrugated mirror model is applied.
+
+   *Default:*
+   ::
+
+      modify_enhancement
+      .false.
+
+      
+**epsilon_0**: *Float*
+
+   High frequency dielectric constant :math:`\epsilon_\infty`. Used to rescale
+   the image potential strength by :math:`(\epsilon_infty - 1)/(\epsilon_\infty
+   + 1)` in the corrugated mirror model. See for instance `Fazleev2004`_.
+
+   *Default:*
+   ::
+
+      epsilon_0
+      1.0e8
+
+
+Geometry
+========
+
+**grid** : *Integer Integer Integer*
+
+   Number of gridpoints along each of the lattice vectors. Only used if atsup is
+   used in the atomic superposition mode.
+
+   *No Default*
+
+
+**species_charges** : *Integer Integer Integer* (x number of species)
+   
+   Total, core and valence charge, respectively, for each species in the unit
+   cell. Specify these values for each species in the unit cell on a seperate
+   line.
+
+   *No Default*
+
+
+Solver
+======
+
+
+**atsup_cutoff** *Float* (x number of species)
+
+   Cutoff radius for the projection of the atomic densities on the
+   three-dimensional grid. Given in Bohr. Specify a single number for each of
+   the species in the unit cell on the same line.
+   
+   *Default:*
+   ::
+
+      atsup_cutoff
+      12.0
+    
+
+**poisson_sigma_gauss** : *Float*
+
+   Width of the gaussians that replace the ionic point charges when solving the
+   Poisson equation. (Note that the correct point charge potential is restored
+   after the Poisson equation is solved.) Given in Bohr.
+
+   *Default:*
+   ::
+
+      poisson_sigma_gauss
+      1.0
+
+
+**schro_cg_aa** : *Float*
+
+   (Not sure) Step size in the conjugate gradient algorithm used in solving the
+   Kohn-Sham equation.
+
+   *Default:*
+   ::
+
+      schro_cg_aa
+      0.01
+
+**schro_cg_tol** : *Float*
+
+   Convergence criterium for the conjugate gradient algorithm. If the absolute
+   energy difference between steps falls below this value, the solver
+   terminates.
+
+   *Default:*
+   ::
+
+      schro_cg_tol
+      1.0e-8
+
+
+**schro_cg_maxiter** : *Integer*
+
+   Maximum number of steps the conjugate gradient algorithm will execute before
+   terminating.
+
+   *Default:*
+   ::
+
+      schro_cg_maxiter
+      10000
+
+Input
+=====
+
+**md_path** : *String*
+
+   Path to the pre-calculated atomic momentum densities. If atsup is ran with
+   the `run_atsup.py` script, these files are found in the `./free_at/`
+   subdirectory created in the working directory.
+
+   *Default:*
+   ::
+
+      md_path
+      ./free_at/
+
+
+**input_elpwfn** : *Logical Integer String*
+
+   (Toffe?)
+
+
+**input_eldenval** : *Logical Integer String*
+
+   Read in precalculated valence electron density (`.true.`/`.false.`), of the
+   specified format, from the file the given name.
+
+   Required if `atsup_mode = 1`.
+
+   *Default:*
+   ::
+
+      input_eldenval
+      .false. 1 eldenval
+
+
+**input_eldeneff** *Logical Integer String*
+
+   Read in effective electron density (`.true.`/`.false.`), of the specified
+   format, from the file with the given name.
+
+   If a WDA calculation has to be re-run without changing the electron density
+   or electron-positron correlation functional, this can safe a significant
+   ammount of time because the sumrule should in priniciple be solved by the
+   provided effective electron density.
+
+   *Default:*
+   ::
+
+      input_eldeneff
+      .false. 1 eldeneff
+
+**input_posvcorr** : *Logical Integer String*
+
+   Read in precalculated positron correlation potential (`.true.`/`.false.`), of
+   the specified format, with the given name. No positron correlation potential
+   is calculated in this case.
+
+   *Default:*
+   ::
+
+      input_posvcorr
+      .false. 1 posvcorr
+
+
+**input_posvcoulval** : *Logical Integer String*
+
+   Read in precalculated positron valence Coulomb potential
+   (`.true.`/`.false.`), of the specified format, with the given name. No
+   positron valence Coulomb potential is calculated in this case.
+
+   *Default:*
+   ::
+
+      input_posvcoulval
+      .false. 1 posvcoulval
+
+
+**input_poswf** : *Logical Integer String*
+
+   Read in precalculated positron wavefunction from file (`.true`./`.false.`),
+   of the specified format, with the given name. No positron wavefunction is
+   calculated in this case.
+   
+   *Default:*
+   ::
+
+      input_poswf
+      .false. 1 poswf
+
+
+**input_geometry** : *Logical Integer String*
+
+   Read in unit cell geometry from file (`.true`./`.false.`), of the specified
+   format, with the given name. 
+
+   *Default:*
+   ::
+      
+      input_geometry
+      .true. 2 POSCAR
+
+
+Output
+======
+
+**calcorb** : *Logical*
+
+   Calculate the orbital resolved annihilation rates. Results are writte to the
+   output file.
+
+   *Default:*
+   ::
+
+      calcorb
+      .true.
+    
+
+**calcmd** : *Logical*
+
+   Calculate the IPM momentum densities. Results are written to
+   ``at_md_part`` and ``at_md_core``. (Needs a reference.)
+
+   *Default:*
+   ::
+
+      calcmd
+      .true.
+
+
+**io_format** : *Integer*
+
+   Switch for the output file formats. Default is the VASP format. 
+
+   *Default:*
+   ::
+
+      io_format
+      2
+
+
+**write_poswf** : *Logical*
+
+   Write the positron wave function.
+
+   *Default:*
+   ::
+
+      write_poswf
+      .false.
+
+
+**write_posden** : *Logical*
+
+   Write the positron density.
+
+   *Default:*
+   ::
+
+      write_posden
+      .true.
+
+
+**write_posvcorr** : *Logical*
+
+   Write the electron-positron correlation potential.
+
+   *Default:*
+   ::
+
+      write_posvcorr
+      .false.
+
+
+**write_posvimage** : *Logical*
+
+   Write the image potential part of the electron-positron correlation
+   potential. Only relevant if `include_image > 0`.
+
+   *Default:*
+   ::
+
+      posvimage
+      1
+
+
+**write_posvcoul** : *Logical*
+
+   Write the (total) positron Coulomb potential.
+
+   *Default:*
+   ::
+
+      write_posvcoul
+      .false.
+
+
+**write_posvcoulval** : *Logical*
+
+   Write the valence electron part of the Coulomb potential. For clarity: It is
+   the sum of the Hartree potential of the valence electron density, and the
+   compensating point charge contributions of the ions.
+
+   *Default:*
+   ::
+
+      write_posvcoulval
+      .false.
+
+
+**write_posvtot** : *Logical*
+
+   Write the total positron Kohn-Sham potential.
+
+   *Default:*
+   ::
+
+      write_posvtot
+      .true.
+
+
+**write_eldentot** : *Logical*
+
+   Write the total electron density.
+
+   *Default:*
+   ::
+
+      write_eldentot
+      .false.
+
+
+**write_eldenval** : *Logical*
+
+   Write the valence part of the electron density.
+
+   *Default:*
+   ::
+
+      write_eldenval
+      .false.
+
+
+**write_eldencore** : *Logical*
+
+   Write the core part of the electron density.
+
+   *Default:*
+   ::
+
+      write_eldencore
+      .false.
+
+
+**write_eldeneff** : *Logical*
+
+   Write the effective electron density deterimined by solving the WDA sum rule.
+   Only relevant if a WDA is selected with `poscorr`
+
+   *Default:*
+   ::
+
+      write_eldeneff
+      .true.
+
+
+**write_pwfn** : *Logical*
+
+   (Toffe?)
+
+
+
+Various
+=======
+
+**atsup_mode** : *Integer*
+
+   Mode to run atsup mode in.
+
+   *Possible Values:*
+
+      **0** : Atomic superposition. Determine the total electron density from
+      the atomic charge densities in the `ATOM` file.
+
+      **1** : Use a provided valence electron density. In this case the core
+      electron densities are extracted from the `ATOM` file, and added to the
+      valence electron density.
+
+   *Default:*
+   ::
+
+      atsup_mode
+      1
+
+
+**iforce** : *Logical*
+
+   Calculate forces on the atoms.
+
+   *Default:*
+   ::
+
+      iforce
+      .false.
+
+
+**kpoints** : *Integer*
+
+   Use only the :math:`\Gamma`, or average over the :math:`\Gamma` and :math:`L` 
+   points. (Needs a reference.)
+
+   *Possible Values:*
+
+      **1** : Use only the :math:`\Gamma` point.
+
+      **2** : Average over the :math:`\Gamma` and :math:`L` points.
+
+   *Default:*
+   ::
+
+      kpoints
+      1
+
+
+**positron_mass** : *Float*
+
+   Mass of the positron in the Kohn-Sham equation, in atomic units.
+
+   *Default:*
+   ::
+
+      positron_mass
+      1.0
+
+
+**excess_charge** : *Float*
+
+   Excess charge in the units cell. Normally atsup expects that the total
+   electron charge and the ions are balanced. If this is not the case and this
+   parameter is not set, an error is thrown. The excess charge in neutralized in
+   the Poisson equation by adding a uniform background charge that neutralizes
+   the cell. Relevant if atsup is ran on charged defect cells. 
+
+   *Default:*
+   ::
+
+      excess__charge
+      0.0
+
+
+**excess_charge_tol** : *Float*
+
+   Atsup checks if the total charge in the cell corresponds with the parameter
+   `excess charge` by integrating the valence charge density. If the discrepancy
+   is larger than this parameter, the code throws an error and stops execution.
+
+   *Default:*
+   ::
+
+      excess_charge_tol
+      1.0e-4
+
+
+**pos_cutoff** : *Float*
+
+   (Toffe?)
+
+   *Default:*
+   ::
+
+      pos_cutoff
+      7.5
+
+
+.. _`Drummond2011`: https://doi.org/10.1103/PhysRevLett.107.207402 
+.. _`Boronski1986`: https://doi.org/10.1103/PhysRevB.34.3820
+.. _`Brandt1970`: https://doi.org/10.1103/PhysRevB.2.3104
+.. _`Brandt1971`: https://doi.org/10.1016/0375-9601(71)90571-8 
+.. _`Rubaszek1991`: https://doi.org/10.1103/PhysRevB.44.10857
+.. _`Callewaert2017`: https://doi.org/10.1103/PhysRevB.96.085135
+.. _`Barbiellini2015`: https://doi.org/10.1103/PhysRevLett.114.147401
+.. _`Barbiellini1995`: https://doi.org/10.1103/PhysRevB.51.7341
+.. _`Kuriplach2014`: https://doi.org/10.1103/PhysRevB.89.155111
+.. _`Nieminen1983`: https://doi.org/10.1103/PhysRevLett.50.281
+.. _`Fazleev2004`: https://doi.org/10.1103/PhysRevB.70.165309

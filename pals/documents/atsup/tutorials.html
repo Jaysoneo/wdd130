@@ -1,0 +1,327 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Tutorials &#8212; atsup_doc 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="index.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Parameters" href="parameters.html" />
+    <link rel="prev" title="Welcome to atsup_doc’s documentation!" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="index.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="parameters.html" title="Parameters"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to atsup_doc’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">atsup_doc 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorials">
+<h1>Tutorials<a class="headerlink" href="#tutorials" title="Permalink to this headline">¶</a></h1>
+<p>Here, we provide two simple tutorials to help you on your way doing
+basic calculations with the atsup code. Each of the tutorials treats a different
+‘mode’ the code works in. The first is the so-called ‘atomic superposition’
+mode, in which the density is determined from free-atom densities. The second
+mode, which I will call the ‘VASP’ mode for now, imports the self-consistent
+valence electron density from a VASP groundstate calculation, and adds free-atom
+core electron densities to it.</p>
+<div class="section" id="atomic-superposition">
+<h2>Atomic superposition<a class="headerlink" href="#atomic-superposition" title="Permalink to this headline">¶</a></h2>
+<p>In this tutorial, we go through the required steps to calculate the positron
+annihilation lifetime of bulk Si, using the atomic superposition mode.</p>
+<div class="section" id="preparing-the-input">
+<h3>Preparing the input<a class="headerlink" href="#preparing-the-input" title="Permalink to this headline">¶</a></h3>
+<p>Create a file <cite>input_atsup</cite> with the following (‘file: input’ does not have to
+go in the file)</p>
+<div class="topic">
+<p class="topic-title">file: <cite>input_atsup</cite></p>
+<div class="line-block">
+<div class="line">atsup_mode</div>
+<div class="line">0</div>
+<div class="line"><br /></div>
+<div class="line">input_geometry</div>
+<div class="line">.true. 2 POSCAR</div>
+<div class="line"><br /></div>
+<div class="line">species_names</div>
+<div class="line">Si</div>
+<div class="line"><br /></div>
+<div class="line">species_charges</div>
+<div class="line">14 10 4</div>
+<div class="line"><br /></div>
+<div class="line">grid</div>
+<div class="line">40 40 40</div>
+</div>
+</div>
+<p>The input file consists of a list a keywords (e.g. ‘grid’) followed by one or
+several lines of parameters (e.g. ‘40 40 40’). Each such entry should be
+followed by a blank line. Lines starting with ‘!’ or ‘#’ are ignored and can be
+used to add comments.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The parser ignores unrecognized keywords currently. Double check
+that you get the keywords correctly to avoid nonsence output.</p>
+</div>
+<p>Here is a brief description of the keywords set in the
+above input file.</p>
+<ul>
+<li><p class="first"><strong>atsup_mode</strong> Tells atsup to run in atomic superposition mode if the value
+‘0’ is given.</p>
+</li>
+<li><p class="first"><strong>input_geometry</strong> Specifies which input file to read the unit cell geometry
+from and what format it has. The first argument ‘.true.’ tells atsup to look
+for a file, which follows the VASP convention (‘2’) and has the name ‘POSCAR’.</p>
+</li>
+<li><p class="first"><strong>species_names</strong> Defines the name(s) of the elements in the unit cell (here
+‘Si’). This is required for the atomic program to calculate the free atomic
+orbitals. All species names should be on the same line, seperated by spaces.</p>
+</li>
+<li><p class="first"><strong>species_charges</strong> Sets the total number of electrons of each species (‘14’),
+as well as the number of electrons to consider as core electrons (‘10’) and as
+valence (‘4’). Obviously, the number of core and valence electrons have to add
+up to the total. For each species, there is a separate line with these three
+numbers.</p>
+</li>
+<li><p class="first"><strong>grid</strong> Specifies the number of gridpoints along each axis of the unit cell.
+The more points you take, the more accurate the result gets but the longer the
+calculation takes. This number should be increased until convergence is
+reached. The code only works in three dimensions, so do not try to put
+anything else than three integers.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Due to the real space grid used in the calculations and the fact
+that core electron densities are projected on this grid, the results
+will always vary some, even at very dense grids. You can consider the
+calculation converged if the lifetime varies around ~ 0.1 ps between two
+chosen grids.</p>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<p>Next, let us create the ‘POSCAR’ file we told atsup to look for.</p>
+<div class="topic">
+<p class="topic-title">file: POSCAR</p>
+<div class="line-block">
+<div class="line">Primitive cell of Si</div>
+<div class="line">5.43</div>
+<div class="line-block">
+<div class="line">0.000    0.500    0.500</div>
+<div class="line">0.500    0.000    0.500</div>
+<div class="line">0.500    0.500    0.000</div>
+</div>
+<div class="line">Si</div>
+<div class="line-block">
+<div class="line">2</div>
+</div>
+<div class="line">Direct</div>
+<div class="line">0.000  0.000  0.000</div>
+<div class="line">0.250  0.250  0.250</div>
+</div>
+</div>
+<p>Here is a brief description of the file:</p>
+<ul class="simple">
+<li>Line 1: Description of the unit cell. Ignored by the code.</li>
+<li>Line 2: Scaling parameter of the cell axes and atomic positions (if they are
+given in cartesian coordinates).</li>
+<li>Lines 3-5: Vectors defining the unit cell. Each line gives the cartesian
+coordinates for the respective axis.</li>
+<li>Line 6: Name(s) of the species(s)</li>
+<li>Line 7: Number of atoms of each species</li>
+<li>Line 8: Coordinate system for the atom list. Either ‘Cartesian’ of ‘Direct’.
+In the latter convention, the atomic coordinates are given with respect to the
+cell axes.</li>
+<li>Line 9-: Coordinates each each atom. (First all positions of the first
+species, then of second and so on.)</li>
+</ul>
+<p>This is all the input required for an atomic superposition calculation.</p>
+</div>
+<div class="section" id="running-the-calculation">
+<h3>Running the calculation<a class="headerlink" href="#running-the-calculation" title="Permalink to this headline">¶</a></h3>
+<p>Running a calculation is a simple as executing the ‘run_atsup.py’ file in the
+atsup root directory.</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Add the path to the ‘run_atsup.py’ script.</p>
+</div>
+</div>
+<div class="section" id="produced-output">
+<h3>Produced output<a class="headerlink" href="#produced-output" title="Permalink to this headline">¶</a></h3>
+<p>Using the parameters from the input file above, you will notice that the
+following new files appeared in the working directory</p>
+<ul class="simple">
+<li><strong>Si.in</strong> : Can be ignored. This files contains the parameters used to
+calculate the free atomic orbitals.</li>
+<li><strong>orb.dat</strong> : Can be ignored. Contains the atomic orbitals of the last species
+the atomic program calculated the orbitals for.</li>
+<li><strong>ATOM</strong> : Can be ignored. Contains the atomic orbitals for all species in the
+calculation, serves as input for the atsup program.</li>
+<li><strong>fort.xx</strong> : Can be ignored. Garbage created by the atomic code. Does not
+contain anything useful.</li>
+<li><strong>output</strong> : The main output file of the atsup program. Discussed more at length
+below.</li>
+<li><strong>posden</strong> : The positron density calculated on the grid. The first line given
+the number of gridpoints along each direction. The rest of the entries give
+the positron density at each of the points (i1, i2, i3) on the grid. The data
+is written in the typical Fortran layout, so the first index varies the
+fastest.</li>
+<li><strong>posdenenh</strong> : Similar to posden, but contains the positron density
+multiplied with the local enhancement factor. Used in momentum density
+calculation with the program ‘epos’.</li>
+</ul>
+<div class="admonition-todo admonition" id="index-1">
+<p class="first admonition-title">Todo</p>
+<p class="last">Maybe the script should remove irrelevant files after the run.</p>
+</div>
+<p>In the main output file, you will first find detailed information about what
+parameters were set in the calculation, under the ‘list of input parameters’
+section. The results of the calculation can be found under the ‘Results’
+section. Typically the code calculate the positron annihilation lifetimes, the
+positron eigenvalue, and the correlation energy. Here is some additional
+information on the results written:</p>
+<ul class="simple">
+<li><strong>LDA vs IPM</strong> : Refers to the lifetime result calculated including (LDA) or
+excluding (IPM) the enhancement factor. The latter is equivalent with the
+overlap of the positron state with the electrons density in question.</li>
+<li><strong>Lifetime vs Annihilation Rate</strong> : The lifetime is obtained as the inverse of
+the annihilation rate.</li>
+<li><strong>Core vs Valence</strong> : Gives the lifetime calculated with the valence and core
+densities seperately. The core and valence densities are determined by the
+charges given in the input file with the keywords ‘species_charges’. Note that
+the enhancement factor for the LDA result is always calculated using the total
+electron density.</li>
+<li><strong>Orbital annihilation rates</strong> : Gives the annihalion rate with each of the
+atomic orbitals. Here ‘n’ is the principal quantum number, and ‘kappa’ the
+angular quantum number from relativistic quantum mechanics. Basically, we have
+<span class="math notranslate nohighlight">\(\kappa = l - 1\)</span>, with l the more familiar angular quantum number of the
+hydrogen atom in non-relativistic quantum mechanics.</li>
+</ul>
+</div>
+</div>
+<div class="section" id="vasp-mode">
+<h2>VASP mode<a class="headerlink" href="#vasp-mode" title="Permalink to this headline">¶</a></h2>
+<p>In this tutorial, we go through the required steps to calculate the positron
+annihilation lifetime of bulk Si, using the VASP mode. I assume you already went
+through the atomic superposition tutorial, so I will refer to it from time to
+time.</p>
+<p>In fact, the only difference between the two modes is the preparation of the
+input files, so I will only explain that.</p>
+<div class="section" id="id1">
+<h3>Preparing the input<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>First of all, perform a VASP groundstate calculation. (I will not tell you how
+to do this here. There are enough decent tutorials you can find on the web.) We
+will only need the ‘CHGCAR’ file from that calculation. So either copy that file
+into the folder you want to run the atsup calculation in, or create the input
+file for atsup in your VASP working directory.</p>
+<p>This time we will use the following input file</p>
+<div class="topic">
+<p class="topic-title">file: <cite>input_atsup</cite></p>
+<div class="line-block">
+<div class="line">atsup_mode</div>
+<div class="line">1</div>
+<div class="line"><br /></div>
+<div class="line">input_eldenval</div>
+<div class="line">.true. 2 CHGCAR</div>
+<div class="line"><br /></div>
+<div class="line">species_names</div>
+<div class="line">Si</div>
+<div class="line"><br /></div>
+<div class="line">species_charges</div>
+<div class="line">14 10 4</div>
+</div>
+</div>
+<p>Note that most of the input is the same as for the atomic superposition
+calculation. The differences are</p>
+<ul class="simple">
+<li><strong>atsup_mode</strong> : Now we inserted ‘1’, the code will only add the free-atom
+core densities. Note that it is crucial that for each species, you select the
+same number of valence electrons as is the case in the VASP groundstate
+calculations, where it is determined by the POTCAR file. You can check it by
+looking for the ‘ZVAL’ keyword in the VASP POTCAR. Note that in the above
+example, I used a standard Si POTCAR with the 3s and 3p electrons in the
+valence.</li>
+<li><strong>input_eldenval</strong> : Here we tell atsup to look for a valence electron density
+file (‘.true.’), which has the VASP format (‘2’) and the name ‘CHGCAR’. Since
+the geometry information is already included in the CHGCAR, atsup will read it
+from there. In fact, if you additionally provide a separate POSCAR file as in
+the atomic superposition tutorial, the code will ignore it. (And it will tell
+you that it did.)</li>
+</ul>
+<p>The rest of the input stays the same.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to atsup_doc’s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="parameters.html"
+                        title="next chapter">Parameters</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="index.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="parameters.html" title="Parameters"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to atsup_doc’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">atsup_doc 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Atsup devs.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+    </div>
+  </body>
+</html>

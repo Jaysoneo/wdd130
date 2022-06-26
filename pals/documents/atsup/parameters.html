@@ -1,0 +1,681 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Parameters &#8212; atsup_doc 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="index.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Run_atsup.py" href="run_atsup.html" />
+    <link rel="prev" title="Tutorials" href="tutorials.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="index.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="run_atsup.html" title="Run_atsup.py"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="tutorials.html" title="Tutorials"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">atsup_doc 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="parameters">
+<h1>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h1>
+<p>This list contains all parameters that can be set in the <cite>input_atsup</cite> file.</p>
+<div class="section" id="correlation">
+<h2>Correlation<a class="headerlink" href="#correlation" title="Permalink to this headline">¶</a></h2>
+<p><strong>poscorr</strong> : <em>Integer</em></p>
+<blockquote>
+<div><p>Selects the electron-positron correlation functional and corresponding
+enhancement factor.</p>
+<p><em>Possible values:</em></p>
+<blockquote>
+<div><p><strong>1</strong> : Drummond LDA (<a class="reference external" href="https://doi.org/10.1103/PhysRevLett.107.207402">Drummond2011</a>)</p>
+<p><strong>2</strong> : Boronski-Nieminen LDA (<a class="reference external" href="https://doi.org/10.1103/PhysRevB.34.3820">Boronski1986</a>)</p>
+<p><strong>3</strong> : LDA derived from the Brandt-Reinheimer enhancement factor. See
+<a class="reference external" href="https://doi.org/10.1103/PhysRevB.2.3104">Brandt1970</a>, <a class="reference external" href="https://doi.org/10.1016/0375-9601(71)90571-8">Brandt1971</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevB.44.10857">Rubaszek1991</a>, <a class="reference external" href="https://doi.org/10.1103/PhysRevB.96.085135">Callewaert2017</a>.</p>
+<p><strong>4</strong> : LDA parametrization by <a class="reference external" href="https://doi.org/10.1103/PhysRevB.51.7341">Barbiellini1995</a> based on data by
+Arponen and Pajanne.</p>
+<p><strong>10</strong> : WDA based on the Drummond (<a class="reference external" href="https://doi.org/10.1103/PhysRevLett.107.207402">Drummond2011</a>) enhancement factor.
+See <a class="reference external" href="https://doi.org/10.1103/PhysRevB.96.085135">Callewaert2017</a> for details.</p>
+<p><strong>20</strong> : WDA based on the Boronski-Nieminen enhancement factor
+(<a class="reference external" href="https://doi.org/10.1103/PhysRevB.34.3820">Boronski1986</a>). See <a class="reference external" href="https://doi.org/10.1103/PhysRevB.96.085135">Callewaert2017</a> for details.</p>
+<p><strong>30</strong> : WDA based on the Brandt-Reinheimer enhancement factor. See
+<a class="reference external" href="https://doi.org/10.1103/PhysRevB.44.10857">Rubaszek1991</a> and <a class="reference external" href="https://doi.org/10.1103/PhysRevB.96.085135">Callewaert2017</a> for details.</p>
+</div></blockquote>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poscorr</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>alpha_gga</strong>: <em>Float</em></p>
+<blockquote>
+<div><p>Value of the <span class="math notranslate nohighlight">\(\alpha\)</span> parameter of the GGA.</p>
+<p>For <span class="math notranslate nohighlight">\(\alpha = 0\)</span>, no gradient corrections are applied.</p>
+<p>For <span class="math notranslate nohighlight">\(\alpha &gt; 0\)</span>, the traditional GGA correction is applied. According
+to <a class="reference external" href="https://doi.org/10.1103/PhysRevB.51.7341">Barbiellini1995</a>, <span class="math notranslate nohighlight">\(\alpha = 0.22\)</span> is a sensible value to use with
+the Arponen-Pajanne LDA enhancement. For the Drummond LDA, <span class="math notranslate nohighlight">\(\alpha = 0.05\)</span>
+was determined in Ref. <a class="reference external" href="https://doi.org/10.1103/PhysRevB.89.155111">Kuriplach2014</a>.</p>
+<p>If <span class="math notranslate nohighlight">\(\alpha &lt; 0\)</span>, the parameter-free GGA is selected. See
+<a class="reference external" href="https://doi.org/10.1103/PhysRevLett.114.147401">Barbiellini2015</a> for details.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">alpha_gga</span>
+<span class="mf">0.0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>wda_maxiter</strong> : <em>Integer</em></p>
+<blockquote>
+<div><p>Determines the maximum number of iterations in the WDA sumrule solver. A
+warning is thrown if the algorithm does not reduce the residual error below
+the parameter <code class="docutils literal notranslate"><span class="pre">wda_tol</span></code>.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wda_maxiter</span>
+<span class="mi">1000</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>wda_cutoff</strong> : <em>Float Float Float</em></p>
+<blockquote>
+<div><p>The radius of the ellipsoid used to calculate the WDA integrals with the
+realspace algorithm. Given in Bohr.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wda_cutoff</span>
+<span class="mf">12.0</span> <span class="mf">12.0</span> <span class="mf">12.0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>wda_tol</strong> : <em>Float</em></p>
+<blockquote>
+<div><p>Tolerance on the sumrule. Once the residual error on the WDA sumrule falls
+below this value, the algorithm considers the sumrule solved.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wda_tol</span>
+<span class="mf">1.0e-5</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>wda_scrchg</strong> : <em>Float</em></p>
+<blockquote>
+<div><p>Value of the sumrule target <span class="math notranslate nohighlight">\(Q\)</span> . See <a class="reference external" href="https://doi.org/10.1103/PhysRevB.96.085135">Callewaert2017</a> for details.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wda_scrchg</span>
+<span class="mf">1.0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>wda_enh</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>If the WDA is selected, use the effective density <span class="math notranslate nohighlight">\(n_e^*\)</span> in the
+enhancement factor. If disabled, use the true total electron density like in
+the LDA.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wda_enh</span>
+<span class="o">.</span><span class="n">true</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>wda_shell_partitioning</strong> : <em>Integer</em></p>
+<blockquote>
+<div><p>Select the shell partitioning scheme to use in the WDA. See <a class="reference external" href="https://doi.org/10.1103/PhysRevB.96.085135">Callewaert2017</a>
+for details.</p>
+<p><em>Possible values:</em></p>
+<blockquote>
+<div><p><strong>0</strong> : No shell partitioning. Treat core electrons in the WDA.</p>
+<p><strong>1</strong> : Not supported.</p>
+<p><strong>2</strong> : Przybylski shell partitioning. Treat core electron in the LDA. See
+<a class="reference external" href="https://doi.org/10.1103/PhysRevB.96.085135">Callewaert2017</a> for details.</p>
+</div></blockquote>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wda_shell_partitioning</span>
+<span class="mi">2</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>wda_root_algo</strong> : <em>Integer</em></p>
+<blockquote>
+<div><p>Determines the root finding algorithm used in solving the WDA sumrule.</p>
+<p><em>Possible values:</em></p>
+<blockquote>
+<div><p><strong>0</strong> : Brent’s method.</p>
+<p><strong>1</strong> : Newton’s method with bisection fallback. Generally faster.</p>
+</div></blockquote>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wda_root_algo</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>wda_realspace</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Selects the integration scheme for the WDA integrals.</p>
+<p><em>Possible values:</em></p>
+<blockquote>
+<div><p><strong>.true.</strong> : Real space integration. Less accurate and generally slower
+than the reciprocal space integration. Scales better for large systems.
+Cutoff radii are determined by the parameter <code class="docutils literal notranslate"><span class="pre">wda_cutoff</span></code>.</p>
+<p><strong>.false.</strong> : Reciprocal space integration. More accurate and generally
+significantly faster. Worse scaling for larger systems.</p>
+</div></blockquote>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wda_root_algo</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>include_image</strong> : <em>Integer Integer Float</em></p>
+<blockquote>
+<div><p>Apply the corrugated mirror model of <a class="reference external" href="https://doi.org/10.1103/PhysRevLett.50.281">Nieminen1983</a>.</p>
+<p>The three numbers are in order: The method for the construction of the image
+potential, the index of the last atom at the surface, and the offset of the
+image potential reference plane with respect to this last atom. The index of
+the atom is the same as in the provided file. The offset is given in Bohr.</p>
+<p><em>Possible Values Method:</em></p>
+<blockquote>
+<div><p><strong>0</strong> : Do not include the image potential.</p>
+<p><strong>1</strong> : Apply a smooth image potential, with corrugations. Note that the
+potential at the surface is discontinuous an that case.</p>
+<p><strong>2</strong> : Average the electron density over the planes parallel to the
+surface and calculate the image potential <span class="math notranslate nohighlight">\(v_{im} = -1/4(z - z_0)\)</span>.
+Use these results as the reference for the construction of the corrugated
+mirror potential.</p>
+<p><strong>3</strong> : Same as 2, but fall back to the image potential formula when the
+electron density drops below <code class="docutils literal notranslate"><span class="pre">image_den_lbound</span></code>. This method is more
+robust than method 2, since mostly the self-consistent density electron
+density is somewhat noisy far in the vacuum, and approach a constant
+(albeit low) value.</p>
+</div></blockquote>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">include_image</span>
+<span class="mi">0</span> <span class="mi">0</span> <span class="mf">0.0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>image_den_lbound</strong>: <em>Float</em></p>
+<blockquote>
+<div><p>Density lower bound used in method 3 of the corrugated mirror model. Always
+check if the default value is sensible!</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">den_lbound</span>
+<span class="mf">1.0e-7</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>modify_enhancement</strong>: <em>Logical</em></p>
+<blockquote>
+<div><p>Use the IPM for the enhancement factor for each gridpoint where the image
+potential is impose in the corrugated mirror model. Only relavant if the
+corrugated mirror model is applied.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modify_enhancement</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>epsilon_0</strong>: <em>Float</em></p>
+<blockquote>
+<div><p>High frequency dielectric constant <span class="math notranslate nohighlight">\(\epsilon_\infty\)</span>. Used to rescale
+the image potential strength by <span class="math notranslate nohighlight">\((\epsilon_infty - 1)/(\epsilon_\infty
++ 1)\)</span> in the corrugated mirror model. See for instance <a class="reference external" href="https://doi.org/10.1103/PhysRevB.70.165309">Fazleev2004</a>.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">epsilon_0</span>
+<span class="mf">1.0e8</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="geometry">
+<h2>Geometry<a class="headerlink" href="#geometry" title="Permalink to this headline">¶</a></h2>
+<p><strong>grid</strong> : <em>Integer Integer Integer</em></p>
+<blockquote>
+<div><p>Number of gridpoints along each of the lattice vectors. Only used if atsup is
+used in the atomic superposition mode.</p>
+<p><em>No Default</em></p>
+</div></blockquote>
+<p><strong>species_charges</strong> : <em>Integer Integer Integer</em> (x number of species)</p>
+<blockquote>
+<div><p>Total, core and valence charge, respectively, for each species in the unit
+cell. Specify these values for each species in the unit cell on a seperate
+line.</p>
+<p><em>No Default</em></p>
+</div></blockquote>
+</div>
+<div class="section" id="solver">
+<h2>Solver<a class="headerlink" href="#solver" title="Permalink to this headline">¶</a></h2>
+<p><strong>atsup_cutoff</strong> <em>Float</em> (x number of species)</p>
+<blockquote>
+<div><p>Cutoff radius for the projection of the atomic densities on the
+three-dimensional grid. Given in Bohr. Specify a single number for each of
+the species in the unit cell on the same line.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">atsup_cutoff</span>
+<span class="mf">12.0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>poisson_sigma_gauss</strong> : <em>Float</em></p>
+<blockquote>
+<div><p>Width of the gaussians that replace the ionic point charges when solving the
+Poisson equation. (Note that the correct point charge potential is restored
+after the Poisson equation is solved.) Given in Bohr.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">poisson_sigma_gauss</span>
+<span class="mf">1.0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>schro_cg_aa</strong> : <em>Float</em></p>
+<blockquote>
+<div><p>(Not sure) Step size in the conjugate gradient algorithm used in solving the
+Kohn-Sham equation.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">schro_cg_aa</span>
+<span class="mf">0.01</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>schro_cg_tol</strong> : <em>Float</em></p>
+<blockquote>
+<div><p>Convergence criterium for the conjugate gradient algorithm. If the absolute
+energy difference between steps falls below this value, the solver
+terminates.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">schro_cg_tol</span>
+<span class="mf">1.0e-8</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>schro_cg_maxiter</strong> : <em>Integer</em></p>
+<blockquote>
+<div><p>Maximum number of steps the conjugate gradient algorithm will execute before
+terminating.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">schro_cg_maxiter</span>
+<span class="mi">10000</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="input">
+<h2>Input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h2>
+<p><strong>md_path</strong> : <em>String</em></p>
+<blockquote>
+<div><p>Path to the pre-calculated atomic momentum densities. If atsup is ran with
+the <cite>run_atsup.py</cite> script, these files are found in the <cite>./free_at/</cite>
+subdirectory created in the working directory.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">md_path</span>
+<span class="o">./</span><span class="n">free_at</span><span class="o">/</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>input_elpwfn</strong> : <em>Logical Integer String</em></p>
+<blockquote>
+<div>(Toffe?)</div></blockquote>
+<p><strong>input_eldenval</strong> : <em>Logical Integer String</em></p>
+<blockquote>
+<div><p>Read in precalculated valence electron density (<cite>.true.</cite>/<cite>.false.</cite>), of the
+specified format, from the file the given name.</p>
+<p>Required if <cite>atsup_mode = 1</cite>.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">input_eldenval</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span> <span class="mi">1</span> <span class="n">eldenval</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>input_eldeneff</strong> <em>Logical Integer String</em></p>
+<blockquote>
+<div><p>Read in effective electron density (<cite>.true.</cite>/<cite>.false.</cite>), of the specified
+format, from the file with the given name.</p>
+<p>If a WDA calculation has to be re-run without changing the electron density
+or electron-positron correlation functional, this can safe a significant
+ammount of time because the sumrule should in priniciple be solved by the
+provided effective electron density.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">input_eldeneff</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span> <span class="mi">1</span> <span class="n">eldeneff</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>input_posvcorr</strong> : <em>Logical Integer String</em></p>
+<blockquote>
+<div><p>Read in precalculated positron correlation potential (<cite>.true.</cite>/<cite>.false.</cite>), of
+the specified format, with the given name. No positron correlation potential
+is calculated in this case.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">input_posvcorr</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span> <span class="mi">1</span> <span class="n">posvcorr</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>input_posvcoulval</strong> : <em>Logical Integer String</em></p>
+<blockquote>
+<div><p>Read in precalculated positron valence Coulomb potential
+(<cite>.true.</cite>/<cite>.false.</cite>), of the specified format, with the given name. No
+positron valence Coulomb potential is calculated in this case.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">input_posvcoulval</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span> <span class="mi">1</span> <span class="n">posvcoulval</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>input_poswf</strong> : <em>Logical Integer String</em></p>
+<blockquote>
+<div><p>Read in precalculated positron wavefunction from file (<cite>.true</cite>./<cite>.false.</cite>),
+of the specified format, with the given name. No positron wavefunction is
+calculated in this case.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">input_poswf</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span> <span class="mi">1</span> <span class="n">poswf</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>input_geometry</strong> : <em>Logical Integer String</em></p>
+<blockquote>
+<div><p>Read in unit cell geometry from file (<cite>.true</cite>./<cite>.false.</cite>), of the specified
+format, with the given name.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">input_geometry</span>
+<span class="o">.</span><span class="n">true</span><span class="o">.</span> <span class="mi">2</span> <span class="n">POSCAR</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="section" id="output">
+<h2>Output<a class="headerlink" href="#output" title="Permalink to this headline">¶</a></h2>
+<p><strong>calcorb</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Calculate the orbital resolved annihilation rates. Results are writte to the
+output file.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">calcorb</span>
+<span class="o">.</span><span class="n">true</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>calcmd</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Calculate the IPM momentum densities. Results are written to
+<code class="docutils literal notranslate"><span class="pre">at_md_part</span></code> and <code class="docutils literal notranslate"><span class="pre">at_md_core</span></code>. (Needs a reference.)</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">calcmd</span>
+<span class="o">.</span><span class="n">true</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>io_format</strong> : <em>Integer</em></p>
+<blockquote>
+<div><p>Switch for the output file formats. Default is the VASP format.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">io_format</span>
+<span class="mi">2</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>write_poswf</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Write the positron wave function.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">write_poswf</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>write_posden</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Write the positron density.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">write_posden</span>
+<span class="o">.</span><span class="n">true</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>write_posvcorr</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Write the electron-positron correlation potential.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">write_posvcorr</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>write_posvimage</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Write the image potential part of the electron-positron correlation
+potential. Only relevant if <cite>include_image &gt; 0</cite>.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">posvimage</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>write_posvcoul</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Write the (total) positron Coulomb potential.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">write_posvcoul</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>write_posvcoulval</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Write the valence electron part of the Coulomb potential. For clarity: It is
+the sum of the Hartree potential of the valence electron density, and the
+compensating point charge contributions of the ions.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">write_posvcoulval</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>write_posvtot</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Write the total positron Kohn-Sham potential.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">write_posvtot</span>
+<span class="o">.</span><span class="n">true</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>write_eldentot</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Write the total electron density.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">write_eldentot</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>write_eldenval</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Write the valence part of the electron density.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">write_eldenval</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>write_eldencore</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Write the core part of the electron density.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">write_eldencore</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>write_eldeneff</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Write the effective electron density deterimined by solving the WDA sum rule.
+Only relevant if a WDA is selected with <cite>poscorr</cite></p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">write_eldeneff</span>
+<span class="o">.</span><span class="n">true</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>write_pwfn</strong> : <em>Logical</em></p>
+<blockquote>
+<div>(Toffe?)</div></blockquote>
+</div>
+<div class="section" id="various">
+<h2>Various<a class="headerlink" href="#various" title="Permalink to this headline">¶</a></h2>
+<p><strong>atsup_mode</strong> : <em>Integer</em></p>
+<blockquote>
+<div><p>Mode to run atsup mode in.</p>
+<p><em>Possible Values:</em></p>
+<blockquote>
+<div><p><strong>0</strong> : Atomic superposition. Determine the total electron density from
+the atomic charge densities in the <cite>ATOM</cite> file.</p>
+<p><strong>1</strong> : Use a provided valence electron density. In this case the core
+electron densities are extracted from the <cite>ATOM</cite> file, and added to the
+valence electron density.</p>
+</div></blockquote>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">atsup_mode</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>iforce</strong> : <em>Logical</em></p>
+<blockquote>
+<div><p>Calculate forces on the atoms.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">iforce</span>
+<span class="o">.</span><span class="n">false</span><span class="o">.</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>kpoints</strong> : <em>Integer</em></p>
+<blockquote>
+<div><p>Use only the <span class="math notranslate nohighlight">\(\Gamma\)</span>, or average over the <span class="math notranslate nohighlight">\(\Gamma\)</span> and <span class="math notranslate nohighlight">\(L\)</span>
+points. (Needs a reference.)</p>
+<p><em>Possible Values:</em></p>
+<blockquote>
+<div><p><strong>1</strong> : Use only the <span class="math notranslate nohighlight">\(\Gamma\)</span> point.</p>
+<p><strong>2</strong> : Average over the <span class="math notranslate nohighlight">\(\Gamma\)</span> and <span class="math notranslate nohighlight">\(L\)</span> points.</p>
+</div></blockquote>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">kpoints</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>positron_mass</strong> : <em>Float</em></p>
+<blockquote>
+<div><p>Mass of the positron in the Kohn-Sham equation, in atomic units.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">positron_mass</span>
+<span class="mf">1.0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>excess_charge</strong> : <em>Float</em></p>
+<blockquote>
+<div><p>Excess charge in the units cell. Normally atsup expects that the total
+electron charge and the ions are balanced. If this is not the case and this
+parameter is not set, an error is thrown. The excess charge in neutralized in
+the Poisson equation by adding a uniform background charge that neutralizes
+the cell. Relevant if atsup is ran on charged defect cells.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">excess__charge</span>
+<span class="mf">0.0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>excess_charge_tol</strong> : <em>Float</em></p>
+<blockquote>
+<div><p>Atsup checks if the total charge in the cell corresponds with the parameter
+<cite>excess charge</cite> by integrating the valence charge density. If the discrepancy
+is larger than this parameter, the code throws an error and stops execution.</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">excess_charge_tol</span>
+<span class="mf">1.0e-4</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>pos_cutoff</strong> : <em>Float</em></p>
+<blockquote>
+<div><p>(Toffe?)</p>
+<p><em>Default:</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pos_cutoff</span>
+<span class="mf">7.5</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="tutorials.html"
+                        title="previous chapter">Tutorials</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="run_atsup.html"
+                        title="next chapter">Run_atsup.py</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="index.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="run_atsup.html" title="Run_atsup.py"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="tutorials.html" title="Tutorials"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">atsup_doc 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Atsup devs.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+    </div>
+  </body>
+</html>

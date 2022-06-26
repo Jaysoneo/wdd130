@@ -1,0 +1,120 @@
+Run_atsup.py
+============
+
+Purpose
+-------
+
+Atsup consists of several programs that are typically run consecutively. The
+usualy chain is:
+
+   1. xscfa
+   2. relorbsc
+   3. posc4par
+   4. atsup
+
+The ``run_atsup.py`` script is introduced to automate the calling chain. Below
+is a brief description of the programs. (A more detailed description should be
+added.)
+
+xscfa
+~~~~~
+
+This is an (ancient) atomic DFT code that calculates the groundstate electronic
+properties for a given atomic species. The input files for most atoms can be
+found in ``[atsup_root]/input/free_at/``. To calculate the free atom electronic
+properties of a specific atom, run ``[atsup_root]/build/bin/xscfa [atom].in``. 
+
+
+relorbsc
+~~~~~~~~
+
+This program extracts the groundstate electron density from the ``xscfa`` output
+and prints it to the stdout. Since ``atsup`` expects this output in the ``ATOM``
+file, run the program with ``[atsup_root]/build/bin/relorbsc [atom]_orb >> ATOM``. 
+
+
+posc4par
+~~~~~~~~
+
+Calculates the momentum density in the IPM using a four parameter positronic
+wavefunction. A file with parameters can be found in
+``[atsup_root]/input/atomic_md/pospara``. Run the program as
+``[atsup_root]/build/bin/posc4par [atom].in [pospara] [atom]_wf``. Where
+``[pospara]`` is the parameter file mentioned before, and ``[atom]_wf``
+respresents the name of the output file. Note that this file creates a series of
+outputs of the form ``[atom]_[shell]``, for example ``Si_1s``, that contains the
+IPM momentum density for that particular atom and shell.
+
+
+Parameters
+----------
+
+The ``run_atsup.py`` script has a couple of options, of which a brief
+description is given by calling ``python run_atsup.py --help``. Below follows a
+more detailed description.
+
+Options
+~~~~~~~
+
+**--no_atoms** :
+
+   Run ``atsup`` without any atoms in the unit cell. Usefull for calculations on
+   the homogeneous electron gas.  This options skips some consistency checks in
+   the script.
+
+
+**--atoms_only** :
+
+   Only run ``xscfa`` and ``relorbsc``. Useful if only the atomic properties are
+   to be calculated.
+
+
+**--no_checks** : 
+
+   Skip consistecy checks in the script. Not recommended, unless you are really
+   sure that your input is correct.
+
+
+**--vasp_auto** : 
+
+   Automatically set all parameters in the ``input_atsup`` file required to run
+   a an ``atsup`` calculations with the VASP files present in the current
+   directory.
+
+   If no ``input_atsup`` file exists, the script generates a new one with the
+   basic parameters extracted from the VASP files. If an ``input_atsup`` file
+   exists, the parameters that can be extracted from the VASP files with
+   overwrite the same entries in the existing file. Other parameters, such as
+   the electron-positron correlation potential are reproduced.
+
+   The script extracts the following information from the VASP files:
+
+   **CHGCAR** : Names of the atomic species, number of atoms of each species 
+
+   **POTCAR** : Names of the atomic species, valence electron charge of the
+   species.
+
+   **INCAR** : Number of electrons in the unit cell (``NELECT`` tag).
+
+   If any inconsistencies are discovered between these files, an error is
+   thrown. From this information, and the script generates the
+   ``input_eldenval``, ``species_names``, ``species_charge``, ``excess_charge``
+   parameters that go in the ``input_atsup`` file.
+
+**--potcar** : 
+
+   With ``--vasp_auto``, specify the name of POTCAR file. 
+
+   *Default:* ``--potcar ./POTCAR``
+
+**--chgcar** :
+
+   With ``--vasp_auto``, specify the name of the CHGAR file.
+
+   *Default:* ``--chgcar ./CHGCAR``
+
+**--incar** : 
+
+   With ``--vasp_auto``, specify the name of the INCAR file.
+
+   *Default:* ``--incar ./INCAR``

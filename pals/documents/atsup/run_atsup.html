@@ -1,0 +1,193 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Run_atsup.py &#8212; atsup_doc 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="index.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Atsup Code Overview" href="code_structure.html" />
+    <link rel="prev" title="Parameters" href="parameters.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="index.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="code_structure.html" title="Atsup Code Overview"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="parameters.html" title="Parameters"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">atsup_doc 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="run-atsup-py">
+<h1>Run_atsup.py<a class="headerlink" href="#run-atsup-py" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="purpose">
+<h2>Purpose<a class="headerlink" href="#purpose" title="Permalink to this headline">¶</a></h2>
+<p>Atsup consists of several programs that are typically run consecutively. The
+usualy chain is:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>xscfa</li>
+<li>relorbsc</li>
+<li>posc4par</li>
+<li>atsup</li>
+</ol>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">run_atsup.py</span></code> script is introduced to automate the calling chain. Below
+is a brief description of the programs. (A more detailed description should be
+added.)</p>
+<div class="section" id="xscfa">
+<h3>xscfa<a class="headerlink" href="#xscfa" title="Permalink to this headline">¶</a></h3>
+<p>This is an (ancient) atomic DFT code that calculates the groundstate electronic
+properties for a given atomic species. The input files for most atoms can be
+found in <code class="docutils literal notranslate"><span class="pre">[atsup_root]/input/free_at/</span></code>. To calculate the free atom electronic
+properties of a specific atom, run <code class="docutils literal notranslate"><span class="pre">[atsup_root]/build/bin/xscfa</span> <span class="pre">[atom].in</span></code>.</p>
+</div>
+<div class="section" id="relorbsc">
+<h3>relorbsc<a class="headerlink" href="#relorbsc" title="Permalink to this headline">¶</a></h3>
+<p>This program extracts the groundstate electron density from the <code class="docutils literal notranslate"><span class="pre">xscfa</span></code> output
+and prints it to the stdout. Since <code class="docutils literal notranslate"><span class="pre">atsup</span></code> expects this output in the <code class="docutils literal notranslate"><span class="pre">ATOM</span></code>
+file, run the program with <code class="docutils literal notranslate"><span class="pre">[atsup_root]/build/bin/relorbsc</span> <span class="pre">[atom]_orb</span> <span class="pre">&gt;&gt;</span> <span class="pre">ATOM</span></code>.</p>
+</div>
+<div class="section" id="posc4par">
+<h3>posc4par<a class="headerlink" href="#posc4par" title="Permalink to this headline">¶</a></h3>
+<p>Calculates the momentum density in the IPM using a four parameter positronic
+wavefunction. A file with parameters can be found in
+<code class="docutils literal notranslate"><span class="pre">[atsup_root]/input/atomic_md/pospara</span></code>. Run the program as
+<code class="docutils literal notranslate"><span class="pre">[atsup_root]/build/bin/posc4par</span> <span class="pre">[atom].in</span> <span class="pre">[pospara]</span> <span class="pre">[atom]_wf</span></code>. Where
+<code class="docutils literal notranslate"><span class="pre">[pospara]</span></code> is the parameter file mentioned before, and <code class="docutils literal notranslate"><span class="pre">[atom]_wf</span></code>
+respresents the name of the output file. Note that this file creates a series of
+outputs of the form <code class="docutils literal notranslate"><span class="pre">[atom]_[shell]</span></code>, for example <code class="docutils literal notranslate"><span class="pre">Si_1s</span></code>, that contains the
+IPM momentum density for that particular atom and shell.</p>
+</div>
+</div>
+<div class="section" id="parameters">
+<h2>Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">run_atsup.py</span></code> script has a couple of options, of which a brief
+description is given by calling <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">run_atsup.py</span> <span class="pre">--help</span></code>. Below follows a
+more detailed description.</p>
+<div class="section" id="options">
+<h3>Options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h3>
+<p><strong>–no_atoms</strong> :</p>
+<blockquote>
+<div>Run <code class="docutils literal notranslate"><span class="pre">atsup</span></code> without any atoms in the unit cell. Usefull for calculations on
+the homogeneous electron gas.  This options skips some consistency checks in
+the script.</div></blockquote>
+<p><strong>–atoms_only</strong> :</p>
+<blockquote>
+<div>Only run <code class="docutils literal notranslate"><span class="pre">xscfa</span></code> and <code class="docutils literal notranslate"><span class="pre">relorbsc</span></code>. Useful if only the atomic properties are
+to be calculated.</div></blockquote>
+<p><strong>–no_checks</strong> :</p>
+<blockquote>
+<div>Skip consistecy checks in the script. Not recommended, unless you are really
+sure that your input is correct.</div></blockquote>
+<p><strong>–vasp_auto</strong> :</p>
+<blockquote>
+<div><p>Automatically set all parameters in the <code class="docutils literal notranslate"><span class="pre">input_atsup</span></code> file required to run
+a an <code class="docutils literal notranslate"><span class="pre">atsup</span></code> calculations with the VASP files present in the current
+directory.</p>
+<p>If no <code class="docutils literal notranslate"><span class="pre">input_atsup</span></code> file exists, the script generates a new one with the
+basic parameters extracted from the VASP files. If an <code class="docutils literal notranslate"><span class="pre">input_atsup</span></code> file
+exists, the parameters that can be extracted from the VASP files with
+overwrite the same entries in the existing file. Other parameters, such as
+the electron-positron correlation potential are reproduced.</p>
+<p>The script extracts the following information from the VASP files:</p>
+<p><strong>CHGCAR</strong> : Names of the atomic species, number of atoms of each species</p>
+<p><strong>POTCAR</strong> : Names of the atomic species, valence electron charge of the
+species.</p>
+<p><strong>INCAR</strong> : Number of electrons in the unit cell (<code class="docutils literal notranslate"><span class="pre">NELECT</span></code> tag).</p>
+<p>If any inconsistencies are discovered between these files, an error is
+thrown. From this information, and the script generates the
+<code class="docutils literal notranslate"><span class="pre">input_eldenval</span></code>, <code class="docutils literal notranslate"><span class="pre">species_names</span></code>, <code class="docutils literal notranslate"><span class="pre">species_charge</span></code>, <code class="docutils literal notranslate"><span class="pre">excess_charge</span></code>
+parameters that go in the <code class="docutils literal notranslate"><span class="pre">input_atsup</span></code> file.</p>
+</div></blockquote>
+<p><strong>–potcar</strong> :</p>
+<blockquote>
+<div><p>With <code class="docutils literal notranslate"><span class="pre">--vasp_auto</span></code>, specify the name of POTCAR file.</p>
+<p><em>Default:</em> <code class="docutils literal notranslate"><span class="pre">--potcar</span> <span class="pre">./POTCAR</span></code></p>
+</div></blockquote>
+<p><strong>–chgcar</strong> :</p>
+<blockquote>
+<div><p>With <code class="docutils literal notranslate"><span class="pre">--vasp_auto</span></code>, specify the name of the CHGAR file.</p>
+<p><em>Default:</em> <code class="docutils literal notranslate"><span class="pre">--chgcar</span> <span class="pre">./CHGCAR</span></code></p>
+</div></blockquote>
+<p><strong>–incar</strong> :</p>
+<blockquote>
+<div><p>With <code class="docutils literal notranslate"><span class="pre">--vasp_auto</span></code>, specify the name of the INCAR file.</p>
+<p><em>Default:</em> <code class="docutils literal notranslate"><span class="pre">--incar</span> <span class="pre">./INCAR</span></code></p>
+</div></blockquote>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="parameters.html"
+                        title="previous chapter">Parameters</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="code_structure.html"
+                        title="next chapter">Atsup Code Overview</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="index.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="code_structure.html" title="Atsup Code Overview"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="parameters.html" title="Parameters"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">atsup_doc 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Atsup devs.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.5.
+    </div>
+  </body>
+</html>
