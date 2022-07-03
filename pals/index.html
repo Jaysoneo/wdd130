@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PALS: Homepage</title>
+    <link href="styles/index.css" rel="stylesheet">
 </head>
 <body>
     <div id="content">
@@ -12,14 +13,16 @@
             <a href="index.html" id="logo_link">
                 <img src="images/logo.png" class="logo" alt="PALS logo">
             </a>
-            <a href="index.html">Home</a>
-            <a href="about_pals.html">About PALS</a>
-            <a href="software.html">Software</a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="about_pals.html">About PALS</a>
+                <a href="software.html">Software</a>
+            </nav>
         </header>
         <main>
             <h1 class="title">Positron Annihilation Spectroscopy</h1>
             <section class="home-intro">
-                <img src="images/rsz_radiation_warning_symbol.png" alt="radiation warning symbol">
+               
                 <h2> What is positron annihilation spectroscopy?</h2>
                 <p>Using a radioactive sample that emmits positrons. When the positions
                 are born, they emmint a gamma ray that we can detect. After a while,
@@ -27,10 +30,11 @@
                 Measuring the time between, it is possible to measure the defect
                 density of a damaged sample.
                 </p>
-            <section>
+                <img src="images/rsz_radiation_warning_symbol.png"  alt="radiation warning symbol" class="symbol">
+            </section>
             <section class="home-details">
                 <h2>Details About PALS</h2>
-                <img src="images/Feynman_Diagram-Positron_Annihilation.png" alt="Positron Annihilation Feynman Diagram">
+                <img src="images/Feynman_Diagram-Positron_Annihilation.png" class="para-img" alt="Positron Annihilation Feynman Diagram">
                 <p>In a damaged sample, atoms within the sample are displaced from
                     their original lattice positions, with greater displacement resulting
                     in regions of higher defect density. Using a radioactive sample,
@@ -41,10 +45,10 @@
                     and the atomic electron with which it annihilates. Measuring the
                     lifetime of the positron by detecting their gamma rays it is posible 
                     to know the defect density of the sample.</p>
-            <section>
+            </section>
             <section class="system">
                 <h2>Detection System</h2>
-                <img src="images/LifetimeSystem.png" alt="symplified detection system">
+                <img src="images/LifetimeSystem.png" class="img-diagram" alt="symplified detection system">
                 <p>
                     In order to detect the lifetime of the positrons
                     we need to set up a speciliced system to detect them.
@@ -57,22 +61,22 @@
                 </p>
             </section>
         </main>
-        <footer>
-            <h3>positron annihilation spectroscopy &copy; 2022 - Jayson Olivares</h3>
-            <h3><a href="site-plan.html">Site Plan</a></h3>
-
-            <div class="social">
-                <a href="https://facebook.com" target="_blank">
-                    <img src="images/facebook.png" alt="fb icon">
-                </a>
-                <a href="https://twitter.com" target="_blank">
-                    <img src="images/twitter.png" alt="twitter icon">
-                </a>
-                <a href="https://instagram.com" target="_blank">
-                    <img src="images/instagram.png" alt="instagram icon">
-                </a>
-            </div>
-        </footer>
     </div>
+    <footer>
+        <h3 class="copyright">positron annihilation spectroscopy &copy; 2022 - Jayson Olivares</h3>
+        <h3 class="site-link"><a href="site-plan.html">Site Plan</a></h3>
+
+        <div class="social">
+            <a href="https://facebook.com" class="icon" target="_blank">
+                <img src="images/facebook.png" alt="fb icon">
+            </a>
+            <a href="https://twitter.com"class="icon" target="_blank">
+                <img src="images/twitter.png" alt="twitter icon">
+            </a>
+            <a href="https://instagram.com" class="icon" target="_blank">
+                <img src="images/instagram.png" alt="instagram icon">
+            </a>
+        </div>
+    </footer>
 </body>
 </html>
