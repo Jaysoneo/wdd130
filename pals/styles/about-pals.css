@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster+Two&family=Oleo+Script&family=Open+Sans:wght@300&family=Titillium+Web:wght@200&display=swap');
+body{
+    background-color: #98C1D9;
+    font-size: 22px;
+    margin: 0;
+    padding: 0;
+}
+/*========NAVIGATION========*/
+.logo{
+    width: 80px;
+    padding-top: 10px;
+}
+#logo_link{
+    padding-top: 5px;
+    justify-self: center;
+    align-self: center;
+}
+header{
+    background-color: #25171A;
+    display: grid;
+    grid-template-columns: 150px auto;
+}  
+nav{
+    background-color: #25171A;
+    display: flex;
+    justify-content:  space-around;
+}
+nav a{
+    text-align: center;
+    text-decoration: none;
+    color: #533A7B;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+    padding: 35px;
+}
+nav a:hover{
+    text-align: center;
+    background-color: #100A0B;
+    color: #5F3B43;
+    text-decoration: none;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+}
+/*============Main Section===========*/
+.title{
+    color:  #4B244A;
+    text-align: center;
+    font-size:3em;
+    font-family: "Lobster Two","Oleo Script",Georgia;
+}
+/*----------------Description section-----------------*/
+.description{
+    background-color: #5F3B43;
+    margin-top: 5em;
+
+}
+.description h2{
+    text-align: center;
+    color: #FF5349;
+    height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 20px;
+    grid-column: 2/4;
+    grid-row: 1/2;
+    font-family: "Lobster Two","Oleo Script",Georgia;
+}
+
+.description img{
+    border: #25171A solid 3px;
+    border-radius: 25px;
+    max-width: 400px;
+}
+
+.description p{
+    color: #25171A;
+    text-align: left;
+    grid-column: 2/5;
+    grid-row: 2/3;
+    margin-right: 40px;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+}
+/*----------description is incomplete (decorate more the images)----------*/
+/*-----------------system section---------------*/
+.system{
+    background-color: #5F3B43;
+    margin-top: 5em;
+
+}
+.system h2{
+    text-align: center;
+    color: #FF5349;
+    height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 20px;
+    grid-column: 2/4;
+    grid-row: 1/2;
+    font-family: "Lobster Two","Oleo Script",Georgia;
+}
+
+.system img{
+    border: #25171A solid 3px;
+    border-radius: 25px;
+    max-width: 720px;
+}
+
+.system p{
+    color: #25171A;
+    text-align: left;
+    grid-column: 2/5;
+    grid-row: 2/3;
+    margin-right: 40px;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+}
+/*------------system incomplete (need rearange)----------------*/
+/*------------documentation--------------*/
+.documentation{
+    background-color: #5F3B43;
+    margin-top: 5em;
+}
+.documentation h2{
+    text-align: center;
+    color: #FF5349;
+    height: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 20px;
+    grid-column: 2/4;
+    grid-row: 1/2;
+    font-family: "Lobster Two","Oleo Script",Georgia;
+}
+
+.documentation img{
+    max-width: 100px;
+    max-height: 60px;
+    
+}
+
+.documentation a{
+    color: #25171A;
+    text-align: left;
+    grid-column: 2/5;
+    grid-row: 2/3;
+    margin-right: 40px;
+    text-decoration: none;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+}
+/*--------moving the icons and links*/
+/*.doc-elements{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr ;
+}*/
+.icon{
+    float: left;
+}
+.icon2{
+    float: center;
+}
+.icon3{
+    float: right;
+}
+.link1{
+   float: left;
+}
+.link2{
+    float: center;
+}
+.link3{
+    float: right;
+}
+
+/*----------------------------------------*/
+/*===============footer==============*/
+footer{
+    background-color: #25171A;
+    padding:0em;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 1em 3em;
+    margin-top: 5em;
+}
+footer a{
+    text-decoration: none;
+    opacity: .6;
+    transform: scale(1.3)
+}
+
+.copyright{
+    color: #533A7B;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+    grid-column:1/4 ;
+    margin-left: 3em;
+}
+.site-link
+{
+    color: #533A7B;
+    text-align: center;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+    grid-column: 1/2;
+    grid-row: 2/3;
+    margin-left: 3em;
+}
+.site-link a:hover{
+    background-color: #100A0B;
+    color: #98C1D9;
+    text-decoration: none;
+    font-family: sans-serif,Roboto,'Plus Jakarta Sans';
+}
+.social{
+    grid-column: 3/4;
+    grid-row: 2/3;
+    display: flex;
+    justify-content:  space-around;
+}
+.social a{
+    opacity: .6;
+    transform: scale(1.1);
+}

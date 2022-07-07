@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PALS: About PALS</title>
+    <link href="styles/about-pals.css" rel="stylesheet">
 </head>
 <body>
     <div id="content">
@@ -12,17 +13,19 @@
             <a href="index.html" id="logo_link">
                 <img src="images/logo.png" class="logo" alt="PALS logo">
             </a>
-            <a href="index.html">Home</a>
-            <a href="about_pals.html">About PALS</a>
-            <a href="software.html">Software</a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="about_pals.html">About PALS</a>
+                <a href="software.html">Software</a>
+            </nav>
         </header>
         <main>
-            <h1> About Positron Annihilation Lifetime Spectroscopy</h1>
+            <h1 class="title"> About Positron Annihilation Lifetime Spectroscopy</h1>
             <section class="description">
                 <h2> Theory behind PALS</h2>
-                <img src="images/Feynman_Diagram-BetaDecay.png" alt="Feynman Diagram Beta Decay">
-                <img src="images/Feynman_Diagram-Positron_Annihilation.png" alt="Feynman Diagram Positron Annihilation">
-                <p>
+                <img src="images/Feynman_Diagram-BetaDecay.png" class="diagram1" alt="Feynman Diagram Beta Decay">
+                <img src="images/Feynman_Diagram-Positron_Annihilation.png" class="diagram2" alt="Feynman Diagram Positron Annihilation">
+                <p class="description-para">
                     What is Positron Anihilation Spectroscopy Lifetime? A 
                     positron is created through either a β + nuclear decay 
                     event or through pair pro-duction. In the event of 
@@ -32,7 +35,7 @@
                     created through nuclear decay, which typically have 
                     little mo-mentum, as is the case for Na22.
                 </p>
-                <p>
+                <p class="description-para2">
                     After undergoing the processes of 
                     thermalization, diffusion, and trapping, the positron 
                     is in a state of very low kinetic energy and in close 
@@ -62,29 +65,39 @@
             </section>
             <section class="documentation">
                 <h2>Documentation for PALS</h2>
-                <a href="documents/Lifetime Thesis Wieland.pdf" target="_blank"> Thesis of Wieland about Lifetime</a>
-                <a href="documents/Positron Defect Mapping_Gagliardi.pdf" target="_blank"> Thesis of Gagliardi about Defect Mapping</a>
-                <a href="https://ocw.mit.edu/courses/22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016/video_galleries/lecture-videos/" target="_blank">MIT lectures of atomic physics</a>
-                
+                <div class="doc-elements">
+                    <a href="documents/Lifetime Thesis Wieland.pdf" class="icon" target="_blank">
+                        <img src="images/pdf-1.png"  alt="pdf icon">
+                    </a>
+                    <a href="documents/Positron Defect Mapping_Gagliardi.pdf" class="icon2" target="_blank">
+                        <img src="images/pdf-1.png"  alt="pdf icon">
+                    </a>
+                    <a href="https://ocw.mit.edu/courses/22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016/video_galleries/lecture-videos/" class="icon3" target="_blank">
+                        <img src="images/WWW-Icon.png"  alt="pdf icon">
+                    </a>
+                    <a href="documents/Lifetime Thesis Wieland.pdf" class="link1" target="_blank">Thesis of Wieland about Lifetime</a>
+                    <a href="documents/Positron Defect Mapping_Gagliardi.pdf" class="link2" target="_blank"> Thesis of Gagliardi about Defect Mapping</a>
+                    <a href="https://ocw.mit.edu/courses/22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016/video_galleries/lecture-videos/"  class="link3" target="_blank">MIT lectures of atomic physics</a>
+                </div>
             </section>
             
         </main>
-        <footer>
-            <h3>positron annihilation spectroscopy &copy; 2022 - Jayson Olivares</h3>
-            <h3><a href="site-plan.html">Site Plan</a></h3>
-
-            <div class="social">
-                <a href="https://facebook.com" target="_blank">
-                    <img src="images/facebook.png" alt="fb icon">
-                </a>
-                <a href="https://twitter.com" target="_blank">
-                    <img src="images/twitter.png" alt="twitter icon">
-                </a>
-                <a href="https://instagram.com" target="_blank">
-                    <img src="images/instagram.png" alt="instagram icon">
-                </a>
-            </div>
-        </footer>
     </div>
+    <footer>
+        <h3 class="copyright">positron annihilation spectroscopy &copy; 2022 - Jayson Olivares</h3>
+        <h3 class="site-link"><a href="site-plan.html">Site Plan</a></h3>
+
+        <div class="social">
+            <a href="https://facebook.com" class="icon" target="_blank">
+                <img src="images/facebook.png" alt="fb icon">
+            </a>
+            <a href="https://twitter.com" class="icon" target="_blank">
+                <img src="images/twitter.png" alt="twitter icon">
+            </a>
+            <a href="https://instagram.com" class="icon" target="_blank">
+                <img src="images/instagram.png" alt="instagram icon">
+            </a>
+        </div>
+    </footer>
 </body>
 </html>
