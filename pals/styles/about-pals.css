@@ -50,6 +50,9 @@ nav a:hover{
 .description{
     background-color: #5F3B43;
     margin-top: 5em;
+    display: grid;
+    grid-template-columns: 15em 15em 15em 15em;
+    grid-template-rows: 5em 12em 12em ;
 
 }
 .description h2{
@@ -63,18 +66,30 @@ nav a:hover{
     grid-row: 1/2;
     font-family: "Lobster Two","Oleo Script",Georgia;
 }
-
+.diagram1{
+    grid-row: 2/3;
+}
+.diagram2{
+    grid-row: 3/4;
+}
+.paragraph1{
+    grid-row: 2/3;
+    grid-column: 2/5;
+}
+.paragraph2{
+    grid-row: 3/4;
+    grid-column: 2/5;
+}
 .description img{
     border: #25171A solid 3px;
     border-radius: 25px;
-    max-width: 400px;
+    max-width: 11em;
+    background-color: white;
+    margin: 1em;
 }
-
 .description p{
     color: #25171A;
     text-align: left;
-    grid-column: 2/5;
-    grid-row: 2/3;
     margin-right: 40px;
     font-family: sans-serif,Roboto,'Plus Jakarta Sans';
 }
@@ -83,6 +98,7 @@ nav a:hover{
 .system{
     background-color: #5F3B43;
     margin-top: 5em;
+    padding-bottom: 5em;
 
 }
 .system h2{
@@ -96,13 +112,6 @@ nav a:hover{
     grid-row: 1/2;
     font-family: "Lobster Two","Oleo Script",Georgia;
 }
-
-.system img{
-    border: #25171A solid 3px;
-    border-radius: 25px;
-    max-width: 720px;
-}
-
 .system p{
     color: #25171A;
     text-align: left;
@@ -111,6 +120,56 @@ nav a:hover{
     margin-right: 40px;
     font-family: sans-serif,Roboto,'Plus Jakarta Sans';
 }
+.system img{
+    max-height: 20em ;
+    max-width: 40em;
+}
+/*We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+.flip-card 
+{   margin-top: 5em;
+    margin: auto;
+    background-color: transparent;
+    width: 40em;
+    height: 20em;
+    perspective: 1000px; /* Remove this if you don't want the 3D effect */
+  }
+  
+  /* This container is needed to position the front and back side */
+  .flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+  }
+  
+  /* Do an horizontal flip when you move the mouse over the flip box container */
+  .flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+  }
+  
+  /* Position the front and back side */
+  .flip-card-front, .flip-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Safari */
+    backface-visibility: hidden;
+  }
+  
+  /* Style the front side (fallback if image is missing) */
+  .flip-card-front {
+    background-color: #25171A;
+    color: #533A7B;
+  }
+  
+  /* Style the back side */
+  .flip-card-back {
+    background-color: #25171A;
+    color: #5F3B43;
+    transform: rotateY(180deg);
+  }
 /*------------system incomplete (need rearange)----------------*/
 /*------------documentation--------------*/
 .documentation{
@@ -130,8 +189,8 @@ nav a:hover{
 }
 
 .documentation img{
-    max-width: 100px;
-    max-height: 60px;
+    max-width: 150px;
+    max-height: 90px;
     
 }
 
@@ -145,28 +204,39 @@ nav a:hover{
     font-family: sans-serif,Roboto,'Plus Jakarta Sans';
 }
 /*--------moving the icons and links*/
-/*.doc-elements{
+.documentation{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr ;
-}*/
-.icon{
-    float: left;
+    grid-template-columns: 30% 30% 30%;
+    grid-template-rows: 30% 30% 30%;
 }
-.icon2{
-    float: center;
+.documentation h2{
+    grid-column: 2/3;
+    grid-row: 1/2;
 }
-.icon3{
-    float: right;
+.documentation h4{
+    color: #25171A;
 }
-.link1{
-   float: left;
+.documentation img:hover{
+    opacity: .6;
+    transform: scale(1.3);
+    }
+.Wieland{
+    margin: 1em;
+    grid-column: 1/2;
+    grid-row: 2/3;
+    text-align: center;
 }
-.link2{
-    float: center;
+.Gagliardi{
+    margin: 1em;
+    grid-column: 2/3;
+    grid-row: 2/3;
+    text-align: center;
 }
-.link3{
-    float: right;
+.MIT{
+    margin: 1em;
+    grid-column: 3/4;
+    grid-row: 2/3;
+    text-align: center;
 }
 
 /*----------------------------------------*/

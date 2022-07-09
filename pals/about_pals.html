@@ -25,7 +25,7 @@
                 <h2> Theory behind PALS</h2>
                 <img src="images/Feynman_Diagram-BetaDecay.png" class="diagram1" alt="Feynman Diagram Beta Decay">
                 <img src="images/Feynman_Diagram-Positron_Annihilation.png" class="diagram2" alt="Feynman Diagram Positron Annihilation">
-                <p class="description-para">
+                <p class="paragraph1">
                     What is Positron Anihilation Spectroscopy Lifetime? A 
                     positron is created through either a β + nuclear decay 
                     event or through pair pro-duction. In the event of 
@@ -35,7 +35,7 @@
                     created through nuclear decay, which typically have 
                     little mo-mentum, as is the case for Na22.
                 </p>
-                <p class="description-para2">
+                <p class="paragraph2">
                     After undergoing the processes of 
                     thermalization, diffusion, and trapping, the positron 
                     is in a state of very low kinetic energy and in close 
@@ -48,37 +48,60 @@
             </section>
             <section class="system">
                 <h2>Detection System</h2>
-                <img src="images/system.png" alt="Diagram of the  Detection System">
-                <img src="images/LifetimeSystem.png" alt="Simplified Diagram of the Detection System">
-                <p>
-                    The detection system is made of several devices, and 
+                <p> The detection system is made of several devices, and 
                     all them together have the objective of detecting the 
                     lifetime of positrons.
-                </p>
-                <p>
-                    The devices for the dection system are two photo multimeter
+                    The devices for the dection system are two photo multiplier
                     tubes with their respective scintillator, two discriminator
                     boxes, two delay boxes, one fast coincidence box, one
                     amplitude to time converter, one data adquisition equipment
                     (Lynx).
                 </p>
+                <p>
+                    The scintillators transform a gamma ray into visible light; then,
+                    the photo multiplier tubes transform the visible light into a pulse of voltage.
+                    There are three diferent type of pulses,
+                    a birth pulse, that comes from the birth of a positron; a death pulse,
+                    that comes from the annihilation of a positron, and noise pulses that come from background sources.
+                    Those noise pulses are filtered when they go through the discriminator boxes. After that,
+                    the pulses go to the fast coincidence box and to the TAC (time to amplitude converter).
+                    The TAC detects the time between a birth and a death pulse, but in order to detect them,
+                    it needs to know when it should start. For that reason, is necessary a delay box. Finally, 
+                    the TAC sends another pulse with the information of the time measured to a data adquisition
+                    equipment, in this case it is a device called Lynx, and the results are seen in a computer
+                    connected to the Lynx.
+                </p>
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                      <div class="flip-card-front">
+                        <img src="images/system.png" alt="Diagram of the  Detection System">
+                      </div>
+                      <div class="flip-card-back">
+                        <img src="images/LifetimeSystem.png" alt="Simplified Diagram of the Detection System">
+                      </div>
+                    </div>
+                  </div>
             </section>
             <section class="documentation">
                 <h2>Documentation for PALS</h2>
-                <div class="doc-elements">
+                <section class="Wieland">
                     <a href="documents/Lifetime Thesis Wieland.pdf" class="icon" target="_blank">
                         <img src="images/pdf-1.png"  alt="pdf icon">
                     </a>
+                    <h4>Thesis of Wieland about Lifetime</h4>
+                </section>
+                <section class="Gagliardi">
                     <a href="documents/Positron Defect Mapping_Gagliardi.pdf" class="icon2" target="_blank">
                         <img src="images/pdf-1.png"  alt="pdf icon">
                     </a>
+                    <h4>Thesis of Gagliardi about Defect Mapping</h4>
+                </section>
+                <section class="MIT">
                     <a href="https://ocw.mit.edu/courses/22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016/video_galleries/lecture-videos/" class="icon3" target="_blank">
-                        <img src="images/WWW-Icon.png"  alt="pdf icon">
+                        <img src="images/WWW-Icon.png"  alt="www icon">
                     </a>
-                    <a href="documents/Lifetime Thesis Wieland.pdf" class="link1" target="_blank">Thesis of Wieland about Lifetime</a>
-                    <a href="documents/Positron Defect Mapping_Gagliardi.pdf" class="link2" target="_blank"> Thesis of Gagliardi about Defect Mapping</a>
-                    <a href="https://ocw.mit.edu/courses/22-01-introduction-to-nuclear-engineering-and-ionizing-radiation-fall-2016/video_galleries/lecture-videos/"  class="link3" target="_blank">MIT lectures of atomic physics</a>
-                </div>
+                    <h4>MIT lectures of atomic physics</h4>
+                </section>
             </section>
             
         </main>
