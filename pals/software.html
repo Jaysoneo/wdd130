@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Software</title>
+    <link href="styles/software.css" rel="stylesheet">
 </head>
 <body>
     <div id="content">
@@ -12,9 +13,11 @@
             <a href="index.html" id="logo_link">
                 <img src="images/logo.png" class="logo" alt="PALS logo">
             </a>
-            <a href="index.html">Home</a>
-            <a href="about_pals.html">About PALS</a>
-            <a href="software.html">Software</a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="about_pals.html">About PALS</a>
+                <a href="software.html">Software</a>
+            </nav>
         </header>
         <main>
             <h1 class="title">Atomic Superposition Software (ATSUP)</h1>
@@ -22,10 +25,10 @@
                 <p>
                     ATSUP is a software that runs in Linux, and 
                     it is used to calculate the positron annihilation
-                    lifetime in different materials. 
+                    lifetime.
                 </p>
             </section>
-            <section class="requirements">
+            <section class="req">
                 <h2>Requirements for ATSUP</h2>
                 <p>
                     Linux: A computer needs to have a Linux operative system.
@@ -39,23 +42,20 @@
                     one that tells about the geometry of the atoms, and the
                     other tells about the parameters for the calculation.
                 </p>
-                <p>
-                    Physics: In order to make the input files, and understand
-                    the output files it is necessary to know some of the 
-                    basics of solid state physics and atomic physics. 
-                </p>
             </section>
-            <section class="example">
-                <h2>Here there is an example of running ATSUP</h2>
+            <section class="exp">
+                <h2>Using ATSUP Example</h2>
                 <section class="input">
                     <h3>Input File</h3>
                     <img src="images/input.png" alt="input file">
                     <p>
                         atsup mode: 0 tells that the software is running
-                        in atomic superposition.
+                        in atomic superposition. The other parameter is 
+                        1, and it runs using files from another software
+                        called VASP.
                     </p>
                     <p>
-                        input geometry: .true. means that is importing a 
+                        input geometry: "".true. 2" means that is importing a 
                         file of the geometry of the sample, the name of 
                         that file is POSCAR.
                     </p>
@@ -64,9 +64,9 @@
                         symbol of Si ,which is silicon.
                     </p>
                     <p>
-                        species charges: tells about the electrons in silicon
-                        , the inner electrons, and the valence electrons
-                        respectively.
+                        species_charges: Tells about the electrons in silicon
+                        the total number of electrons, the core electrons, and
+                        the valence electrons respectively.
                     </p>
                     <p>
                         grid: tells about the precision of the calculation,
@@ -75,71 +75,101 @@
                         requires more time to calculate.
                     </p>
                     <p>
-                        Notice that the titles are comments and no commands, 
-                        for example "grid" does nothing, but it is helpful 
-                        to know what each of these numbers are.
+                        The program reads the words and interprets that as a
+                        command, then, the parameters under the command are 
+                        used for the calculation. Finally, if the last parameter
+                        is a command, the program runs that command
+                        with it respective parameters, otherwise the calculation is done.
                     </p>
                 </section>
-                <section class="POSCAR">
+                <section class="geo">
                     <h3>POSCAR File (Geometry)</h3>
-                    <img src="images/POSCAR.png" alt="Poscar File">
+                    <img src="images/POSCAR.png" class="poscar" alt="Poscar File">
+                    <img src="images/cubic_diamond.png"  class="cube" alt="diamond cell">
                     <p>
                         In this file are the details of how are aranged the
                         atoms in the sample.
                     </p>
-                    <p>
-                        Primitive cell of Si: the are two ways to describe 
+                    <p> Cristals can be described as a structure that is 
+                        repeated, this structure is called cell, and it 
+                        is made of atoms.
+                        The are two ways to describe 
                         a cell, one is the primitive which has the least 
-                        amount of atoms, and the other is the standar, which
+                        amount of volume, and the other is the standard, which
                         has the standar form of describing a cell (usually 
-                        easier to understand).
+                        easier to describe).
                     </p>
                     <p>
-                        The 5.43 represent the distance between atoms in amnstrong.
+                        The 5.43 represent the distance between Si atoms in amnstrong.
                     </p>
                     <p>
-                        the three numbers represent the vectors that describe the 
-                        position of the atoms in the cell.
+                        The three set of numbers represent the vectors that describe the 
+                        position of the atoms in the cell. For Si the cell is diamond
+                        cell, which can be understood as two face center cubic (fcc) cells.
                     </p>
                     <p>
                         Si: represent the element, in this case silicon
                     </p>
                     <p>
-                        2: The number of atoms in the calculation. Remember that each
-                        verticie has a fraction of an atom.
+                        2: The number of initial points, in this case, there are two
+                        since a diamond cell can be described with to fcc cells.
                     </p>
                     <p>
-                        Direct & numbers: The type of coordinate, in this case
-                        in respect to the cell. The numbers represent the coordinates
-                        of each atom.
+                        Direct: The type of coordinate, in this case
+                        in respect to the cell. The numbers represent
+                        the starting point of each cell.
                     </p>
-                    <p>
+                    <p class="last-geo-p">
                         Notes: Although in this example it was used only one type of atom, 
-                        in the calculations it is possible to add more types. Also, there
-                        were not deffects in this calculation.
+                        in the calculations it is possible to add more types of atoms  ,for example, sodium chloride.
+                        Also, there were not deffects in this calculation.
                     </p>
                 </section>
             </section>
             <section class="documentation">
                 <h2>documentation for ATSUP</h2>
-                <a href="documents/John-BarrettW13.pdf" target="_blank">John Barret Thesis</a>
-                <a href="documents/Josh-HeinerW14.pdf" target="_blank">Josh Heiner Thesis</a>
-                <a href="documents/NewUsing_ATSUP.pdf" target="_blank">Installing ATSUP</a>
-                <a href="documents/atsup/index.html" target="_blank">Documentation of ATSUP</a>
+                <section class="barret">
+                    <a href="documents/John-BarrettW13.pdf" target="_blank">
+                        <img src="images/pdf-1.png">
+                    </a>
+                    <h4>John Barret Thesis</h4>
+                </section>
+                
+                <section class="heiner">
+                    <a href="documents/Josh-HeinerW14.pdf" target="_blank">
+                        <img src="images/pdf-1.png">
+                    </a>
+                    <h4>Josh Heiner Thesis</h4>
+                </section>
+                
+                <section class="installation">
+                    <a href="documents/NewUsing_ATSUP.pdf" target="_blank">
+                        <img src="images/pdf-1.png">
+                    </a>
+                    <h4>Installing ATSUP</h4>
+                </section>
+                
+                <section class="documentation">
+                    <a href="documents/atsup/index.html" target="_blank">
+                        <img src="images/WWW-Icon.png">
+                    </a>
+                    <h4>ATSUP Documentation</h4>
+                </section>
+                
             </section>
         </main>
         <footer>
-            <h3>positron annihilation spectroscopy &copy; 2022 - Jayson Olivares</h3>
-            <h3><a href="site-plan.html">Site Plan</a></h3>
-
+            <h3 class="copyright">positron annihilation spectroscopy &copy; 2022 - Jayson Olivares</h3>
+            <h3 class="site-link"><a href="site-plan.html">Site Plan</a></h3>
+    
             <div class="social">
-                <a href="https://facebook.com" target="_blank">
+                <a href="https://facebook.com" class="icon" target="_blank">
                     <img src="images/facebook.png" alt="fb icon">
                 </a>
-                <a href="https://twitter.com" target="_blank">
+                <a href="https://twitter.com" class="icon" target="_blank">
                     <img src="images/twitter.png" alt="twitter icon">
                 </a>
-                <a href="https://instagram.com" target="_blank">
+                <a href="https://instagram.com" class="icon" target="_blank">
                     <img src="images/instagram.png" alt="instagram icon">
                 </a>
             </div>
