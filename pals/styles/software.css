@@ -39,12 +39,10 @@ nav a:hover{
     text-decoration: none;
     font-family: sans-serif,Roboto,'Plus Jakarta Sans';
 }
-/*#content{
-    max-width: 1200px;
-}*/
+
 /*============Main Section===========*/
 main{
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 .title{
@@ -169,6 +167,7 @@ main{
 .documentation img:hover{
     opacity: .6;
     transform: scale(1.3);
+    transition: 0.5s;
     }
     /*------------alignment-----------*/
     .barret{
