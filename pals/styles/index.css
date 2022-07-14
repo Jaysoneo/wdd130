@@ -40,6 +40,10 @@ nav a:hover{
     font-family: sans-serif,Roboto,'Plus Jakarta Sans';
 }
 /*============Main Section===========*/
+main{
+    max-width: 1400px;
+    margin: 0 auto;
+}
 /*---------intro section---------------*/
 .title{
     color:  #4B244A;
