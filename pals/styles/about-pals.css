@@ -140,7 +140,6 @@ main{
 }
 /*-----------------flip card------------------ */
 .flip-card 
-
 {   margin-top: 5em;
     margin: auto;
     background-color: transparent;
@@ -222,8 +221,7 @@ main{
 /*--------moving the icons and links*/
 .documentation{
     display: grid;
-    grid-template-columns: 30% 30% 30%;
-    grid-template-rows: 30% 30% 30%;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 .documentation h2{
     grid-column: 2/3;
